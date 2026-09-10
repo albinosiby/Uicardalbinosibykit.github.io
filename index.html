@@ -639,9 +639,39 @@ body::before {
 }
 
 /* ============ preview animation classes ============ */
+/* IMPORTANT: previews use position: relative + absolutely-positioned children
+   centered via left:50%/top:50% + translate(-50%,-50%) in transform. */
+
+.preview-coverflow,
+.preview-stack,
+.preview-fan,
+.preview-vparallax,
+.preview-flip,
+.preview-expand,
+.preview-depth,
+.preview-flipstack,
+.preview-blur,
+.preview-fadeslide,
+.preview-shuffle,
+.preview-cprogress,
+.preview-curved,
+.preview-circle,
+.preview-sparallax {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.preview-flip,
+.preview-depth,
+.preview-expand,
+.preview-blur,
+.preview-fadeslide {
+  display: block;
+}
 
 /* Coverflow */
-.preview-coverflow { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
+.preview-coverflow { transform-style: preserve-3d; }
 .preview-coverflow .cf-item {
   position: absolute;
   left: 50%;
@@ -664,7 +694,6 @@ body::before {
 }
 
 /* Stack */
-.preview-stack { position: relative; width: 100%; height: 100%; }
 .preview-stack .st-item {
   position: absolute;
   left: 50%;
@@ -685,7 +714,6 @@ body::before {
 }
 
 /* Fan */
-.preview-fan { position: relative; width: 100%; height: 100%; }
 .preview-fan .fan-item {
   position: absolute;
   left: 50%;
@@ -706,7 +734,6 @@ body::before {
 }
 
 /* Vertical parallax */
-.preview-vparallax { position: relative; width: 100%; height: 100%; }
 .preview-vparallax .vp-item {
   position: absolute;
   border-radius: 8px;
@@ -721,11 +748,14 @@ body::before {
 }
 
 /* Flip */
-.preview-flip { position: relative; width: 100%; height: 100%; display: grid; place-items: center; }
 .preview-flip .flip-item {
   position: absolute;
+  left: 50%;
+  top: 50%;
   width: 90px;
   height: 120px;
+  margin-left: -45px;
+  margin-top: -60px;
   border-radius: 10px;
   display: grid;
   place-items: center;
@@ -733,7 +763,6 @@ body::before {
   font-weight: 700;
   color: var(--text-muted);
   backface-visibility: hidden;
-  transform-style: preserve-3d;
   transition: all 0.7s var(--ease-in-out);
   will-change: transform, opacity;
   box-shadow: 0 8px 24px rgba(0,0,0,0.4);
@@ -783,11 +812,14 @@ body::before {
 }
 
 /* Expanded center */
-.preview-expand { position: relative; width: 100%; height: 100%; display: grid; place-items: center; }
 .preview-expand .ex-item {
   position: absolute;
+  left: 50%;
+  top: 50%;
   width: 80px;
   height: 105px;
+  margin-left: -40px;
+  margin-top: -52px;
   border-radius: 10px;
   display: grid;
   place-items: center;
@@ -858,21 +890,17 @@ body::before {
 }
 
 /* Depth layer */
-.preview-depth { position: relative; width: 100%; height: 100%; perspective: 900px; display: grid; place-items: center; transform-style: preserve-3d; }
+.preview-depth { perspective: 900px; transform-style: preserve-3d; }
 .preview-depth .dp-item {
   position: absolute;
+  left: 50%;
+  top: 50%;
   width: 85px;
   height: 110px;
+  margin-left: -42px;
+  margin-top: -55px;
   border-radius: 10px;
   display: grid;
   place-items: center;
   font-size: 18px;
-  font-weight: 700;
-  color: var(--text-muted);
-  transition: all 0.7s var(--ease-out);
-  will-change: transform, opacity;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-}
-
-/* Magnetic */
-.preview-magnetic { position: relative; 
+  font
