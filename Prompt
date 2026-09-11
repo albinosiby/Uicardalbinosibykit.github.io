@@ -1,0 +1,1288 @@
+Build a production-quality "MotionCards" animation library containing 30 DISTINCT card animation systems.
+
+PRIMARY GOAL
+
+I want a visual reference website where I can:
+
+Browse 30 card animations
+→ See each animation working live
+→ Open a larger demo
+→ Understand how the animation behaves
+→ Copy a reusable implementation prompt
+→ Paste that prompt into another project
+→ Apply the same motion to ANY existing UI element
+
+The animations must NOT be coupled to the example card design.
+
+They must be reusable for:
+
+- Cards
+- Images
+- Portfolio projects
+- Product cards
+- Testimonials
+- Services
+- Team members
+- Pricing cards
+- Blog cards
+- Website screenshots
+- App screenshots
+- Gallery items
+- Videos
+- Custom React components
+
+==================================================
+TECHNOLOGY
+==================================================
+
+SHOWCASE WEBSITE:
+
+- HTML5
+- CSS3
+- Vanilla JavaScript
+
+No backend or database is required.
+
+However, every generated "Copy Prompt" must describe how to recreate that animation using:
+
+- React / Next.js
+- TypeScript
+- Framer Motion / Motion for React
+- CSS 3D transforms where appropriate
+
+==================================================
+GLOBAL RULE FOR ALL ANIMATIONS
+==================================================
+
+Do NOT redesign the existing UI when these prompts are reused.
+
+The copied prompt for every animation must contain this instruction:
+
+"Apply this motion system to the specified existing elements while preserving their current content, dimensions, typography, colors, styling, responsive behavior and functionality. Do not redesign or restructure the existing UI unless required for the animation wrapper."
+
+Animation implementations must prioritize:
+
+transform
+translateX
+translateY
+translateZ
+scale
+rotate
+rotateX
+rotateY
+opacity
+
+Avoid expensive continuous animation of:
+
+width
+height
+top
+left
+margin
+
+Target smooth 60 FPS.
+
+Support prefers-reduced-motion.
+
+==================================================
+SET 1 — ANIMATIONS 01–15
+==================================================
+
+
+01 — 3D COVERFLOW / CENTER FOCUS
+
+TYPE:
+3D Carousel
+
+Create a cinematic center-focused Coverflow.
+
+Five items can be visible:
+
+[ far-left ][ left ][ ACTIVE ][ right ][ far-right ]
+
+ACTIVE:
+
+x: 0
+scale: 1
+rotateY: 0
+translateZ: 0
+opacity: 1
+
+ADJACENT:
+
+scale: approximately 0.85–0.9
+rotateY: approximately ±8–12deg
+translateZ: approximately -100px
+opacity: 0.8–0.9
+
+OUTER:
+
+scale: approximately 0.7–0.78
+rotateY: approximately ±15–20deg
+translateZ: approximately -200px
+opacity: 0.55–0.7
+
+Core movement:
+
+SIDE
+→ FORWARD
+→ SCALE UP
+→ STRAIGHTEN
+→ CENTER
+
+while the previous center:
+
+CENTER
+→ SIDE
+→ SHRINK
+→ ROTATE
+→ RECEDE
+
+Support:
+
+- arrows
+- drag
+- swipe
+- click-to-focus
+- keyboard
+- infinite looping
+
+Use perspective approximately 1200–1600px.
+
+
+02 — STACK SLIDER
+
+TYPE:
+Stack / Depth
+
+Cards should appear physically stacked behind the active card.
+
+Front card:
+
+scale: 1
+translateY: 0
+translateZ: 0
+
+Cards behind progressively:
+
+move upward/downward slightly
+scale down
+move deeper in Z-space
+reduce opacity
+
+Navigation:
+
+FRONT CARD
+→ slides outward
+→ slightly rotates
+→ fades
+→ moves behind stack
+
+NEXT CARD
+→ moves forward
+→ scales to 1
+→ becomes active
+
+Make it feel like cycling through a physical deck.
+
+
+03 — FAN ROTATION
+
+TYPE:
+Fan / Radial
+
+Cards originate around a shared lower pivot.
+
+Inactive cards should fan outward using different rotations.
+
+Example:
+
+-24°
+-12°
+0°
+12°
+24°
+
+The active card should move slightly forward and straighten.
+
+On interaction:
+
+collapsed stack
+→ cards progressively rotate outward
+→ spacing increases
+→ fan opens
+
+Reverse smoothly when closed.
+
+Use transform-origin near bottom-center.
+
+
+04 — VERTICAL PARALLAX
+
+TYPE:
+Parallax / Layered
+
+Arrange cards in vertical depth layers.
+
+During scrolling or interaction:
+
+front layers move faster
+middle layers move moderately
+rear layers move slower
+
+Combine:
+
+translateY
+translateZ
+scale
+opacity
+
+Do not simply move all cards together.
+
+Create genuine perceived depth.
+
+
+05 — FLIP CAROUSEL
+
+TYPE:
+3D Flip
+
+Cards transition through 3D Y-axis rotation.
+
+Outgoing:
+
+rotateY: 0 → approximately -90deg
+translateZ decreases
+opacity decreases
+
+Incoming:
+
+rotateY: approximately 90deg → 0
+translateZ increases
+opacity increases
+
+Use:
+
+perspective
+transform-style: preserve-3d
+backface-visibility
+
+The animation must feel like physical cards rotating through space rather than a simple fade.
+
+
+06 — INFINITE LOOP
+
+TYPE:
+Continuous Carousel
+
+Create seamless horizontal card movement.
+
+Cards continuously move:
+
+RIGHT → LEFT
+
+or configurable direction.
+
+When an item leaves the viewport it should seamlessly re-enter from the opposite side.
+
+There must be:
+
+- no visible reset
+- no teleportation
+- no spacing jump
+
+Support:
+
+pause/slow on hover
+dragging
+responsive speed
+
+Use duplicated track logic or mathematically wrapped positions.
+
+
+07 — TILT & HOVER
+
+TYPE:
+Pointer Interactive
+
+The element reacts to cursor position.
+
+Map pointer position to:
+
+rotateX
+rotateY
+translateZ
+
+Example maximum:
+
+rotateX: ±8deg
+rotateY: ±10deg
+
+Also dynamically move:
+
+shadow
+highlight
+optional glare
+
+Pointer leaves:
+
+card returns smoothly to:
+
+rotateX: 0
+rotateY: 0
+scale: 1
+
+Use spring interpolation rather than directly attaching transforms to the pointer.
+
+
+08 — EXPANDED CENTER
+
+TYPE:
+Focus Carousel
+
+Center element becomes substantially more prominent.
+
+CENTER:
+
+scale: 1
+opacity: 1
+
+ADJACENT:
+
+scale: 0.78–0.88
+opacity: 0.65–0.85
+
+When navigation occurs:
+
+next card moves toward center
+→ spacing changes
+→ scale increases
+→ shadow strengthens
+
+Old center simultaneously contracts.
+
+Avoid abrupt width changes; achieve visual expansion primarily through transforms.
+
+
+09 — SCROLL TRIGGERED
+
+TYPE:
+Scroll Reveal
+
+Use IntersectionObserver on the static showcase.
+
+For reusable Framer Motion prompts use:
+
+whileInView
+viewport
+
+Cards enter progressively.
+
+Initial:
+
+translateY: 40–80px
+scale: approximately 0.94
+opacity: 0
+
+Final:
+
+translateY: 0
+scale: 1
+opacity: 1
+
+Use staggered children.
+
+Do not make every card appear simultaneously.
+
+
+10 — WAVE MOTION
+
+TYPE:
+Sequential / Wave
+
+Cards form a horizontal composition.
+
+Create a smooth wave traveling through the items.
+
+Example:
+
+card 1 rises
+→ card 2 rises
+→ card 3 rises
+→ card 4 rises
+→ card 5 rises
+
+Previous cards simultaneously settle.
+
+Use phase/timing offsets.
+
+Combine subtle:
+
+translateY
+rotate
+scale
+
+Avoid cartoon-like bouncing.
+
+
+11 — CUBE ROTATION
+
+TYPE:
+3D Structural
+
+Cards should behave like surfaces positioned around a virtual 3D structure.
+
+Navigation rotates the composition around the Y-axis.
+
+Use:
+
+perspective
+rotateY
+translateZ
+preserve-3d
+
+The next surface should naturally rotate into the front position.
+
+Avoid faking the effect using only opacity.
+
+
+12 — DEPTH LAYER
+
+TYPE:
+Z-Depth Stack
+
+Arrange elements on different Z-depth planes.
+
+ACTIVE:
+
+translateZ: 0
+scale: 1
+opacity: 1
+
+Each deeper layer:
+
+translateZ progressively decreases
+scale progressively decreases
+opacity slightly decreases
+
+Navigation moves the next layer physically forward.
+
+Use depth and scale together to create strong spatial perception.
+
+
+13 — MAGNETIC FOCUS
+
+TYPE:
+Pointer / Proximity
+
+Cards react to pointer proximity rather than only direct hover.
+
+As cursor approaches:
+
+nearest card moves subtly toward pointer
+scale increases slightly
+
+Nearby cards receive weaker attraction.
+
+Movement strength should be calculated from pointer distance.
+
+Use spring smoothing.
+
+Maximum movement must remain subtle.
+
+The element must never feel attached directly to the cursor.
+
+
+14 — CAROUSEL WITH PROGRESS
+
+TYPE:
+Controlled Carousel
+
+Create a carousel with:
+
+Previous
+Next
+Current slide
+Total slides
+Progress bar
+Pagination dots
+
+Example:
+
+03 / 05
+
+During navigation:
+
+card transition and progress indicator animate together.
+
+Progress should smoothly interpolate rather than instantly jump.
+
+
+15 — 3D CURVED CARD FLOW
+
+TYPE:
+Curved 3D Carousel
+
+Cards follow an invisible curved path.
+
+CENTER:
+
+x: 0
+y: 0
+scale: 1
+rotateY: 0
+
+Moving away from center:
+
+x increases
+y follows subtle curve
+translateZ decreases
+scale decreases
+rotateY points toward center
+
+The result should resemble cards positioned around part of a large invisible cylinder.
+
+==================================================
+SET 2 — ANIMATIONS 16–30
+==================================================
+
+
+16 — CARD ZOOM IN
+
+TYPE:
+Hover / Focus
+
+On hover or selection:
+
+scale: 1 → approximately 1.06
+translateY: 0 → approximately -8px
+translateZ increases slightly
+
+Strengthen the shadow simultaneously.
+
+Neighboring cards can reduce scale/opacity very slightly.
+
+Transition should feel controlled and premium.
+
+Do not create an aggressive zoom.
+
+
+17 — SLIDE REVEAL
+
+TYPE:
+Reveal / Interactive
+
+Create layered cards where content is initially partially hidden.
+
+Interaction causes:
+
+foreground layer → slides sideways
+
+revealing:
+
+secondary content/image/details underneath.
+
+Use clipping/masking where appropriate.
+
+Animation:
+
+COVER
+→ SLIDE
+→ REVEAL CONTENT
+
+Reverse cleanly when interaction ends.
+
+
+18 — BLUR TO FOCUS
+
+TYPE:
+Depth / Focus
+
+Center/selected card becomes visually sharp while surrounding cards lose emphasis.
+
+ACTIVE:
+
+blur: 0
+scale: 1
+opacity: 1
+
+DISTANT:
+
+small controlled blur
+reduced scale
+lower opacity
+
+During navigation:
+
+incoming card gradually sharpens while moving toward center.
+
+Outgoing card gradually softens.
+
+Keep blur subtle because filter animation can be expensive.
+
+
+19 — SPLIT CARD
+
+TYPE:
+Creative Reveal
+
+Visually divide the element into two synchronized halves.
+
+On interaction:
+
+LEFT HALF
+→ shifts/rotates left
+
+RIGHT HALF
+→ shifts/rotates right
+
+revealing secondary content beneath.
+
+Both halves must originate from the same card and remain visually aligned before animation.
+
+Reverse seamlessly.
+
+
+20 — FLIP STACK
+
+TYPE:
+3D Stack
+
+Combine deck stacking with 3D flipping.
+
+Front card:
+
+rotateY or rotateX
+→ moves outward
+→ travels behind stack
+
+Remaining stack:
+
+moves forward one level.
+
+The returning card joins the rear.
+
+Create continuous deck-like cycling.
+
+
+21 — ROTATE & SCALE
+
+TYPE:
+Interactive Transform
+
+Interaction combines:
+
+rotation
+scale
+translation
+
+Example:
+
+rotate: 0 → 3–6deg
+scale: 1 → 1.04
+translateY: 0 → -6px
+
+Direction can depend on pointer position.
+
+Use springs.
+
+The effect should be noticeably more dynamic than ordinary hover scaling while remaining elegant.
+
+
+22 — MORPH TRANSITION
+
+TYPE:
+Creative / Shared Layout
+
+One card smoothly transforms into another visual state.
+
+Animate shared geometry:
+
+position
+scale
+border radius
+image area
+content placement
+
+For Framer Motion implementations prefer:
+
+layout
+layoutId
+
+where appropriate.
+
+The transformation should look continuous rather than:
+
+old card disappears
+→ new card appears.
+
+Preserve visual continuity between states.
+
+
+23 — ELASTIC BOUNCE
+
+TYPE:
+Spring / Playful
+
+Cards move using carefully controlled elastic spring physics.
+
+When selected:
+
+card moves forward
+→ slightly overshoots
+→ settles naturally
+
+Use spring configuration rather than keyframe fake-bouncing.
+
+Example starting point:
+
+type: spring
+stiffness: 260
+damping: 18
+mass: 0.8
+
+Tune values according to element size.
+
+Avoid excessive repeated bouncing.
+
+
+24 — PERSPECTIVE TILT
+
+TYPE:
+3D Pointer
+
+Create stronger spatial tilt than Animation 07.
+
+Pointer movement controls:
+
+rotateX
+rotateY
+translateZ
+perspective origin
+
+The card should appear to exist on a physical plane in 3D space.
+
+Optionally allow inner content to have separate depth levels:
+
+background: z0
+image: z20
+text: z35
+button: z45
+
+This creates multi-layer parallax inside the tilted element.
+
+
+25 — FADE & SLIDE
+
+TYPE:
+Minimal Transition
+
+Create a clean sequential transition using:
+
+opacity
+translateX or translateY
+
+Outgoing:
+
+opacity 1 → 0
+translate approximately 0 → -30px
+
+Incoming:
+
+opacity 0 → 1
+translate approximately 30px → 0
+
+Use elegant easing.
+
+This animation should remain intentionally minimal and suitable for professional interfaces.
+
+
+26 — CARD SHUFFLE
+
+TYPE:
+Dynamic Deck
+
+Cards should behave like a shuffled physical deck.
+
+On navigation:
+
+active card moves sideways
+→ rotates slightly
+→ moves backward
+→ joins rear of stack
+
+Other cards advance.
+
+Add small position/rotation offsets so the stack does not look mechanically identical.
+
+Movement must remain deterministic enough to avoid visual chaos.
+
+
+27 — SCROLL PARALLAX
+
+TYPE:
+Scroll / Depth
+
+Unlike the basic vertical parallax example, tie multiple card layers directly to scroll progress.
+
+Different cards use different movement ratios.
+
+Example:
+
+rear: scroll × 0.25
+middle: scroll × 0.5
+front: scroll × 0.8
+
+Combine with subtle scale and depth.
+
+For Framer Motion prompts use concepts such as:
+
+useScroll
+useTransform
+
+Keep motion smooth and bounded.
+
+
+28 — FLIP REVEAL CONTENT
+
+TYPE:
+3D Content Reveal
+
+A single card has front and back states.
+
+FRONT:
+primary content
+
+BACK:
+secondary content
+
+Interaction:
+
+rotateY: 0 → 180deg
+
+Use:
+
+transform-style: preserve-3d
+backface-visibility: hidden
+
+Back side should be rotated 180deg initially.
+
+Support click/tap, not only hover, so it works on mobile.
+
+
+29 — GLOW FOCUS
+
+TYPE:
+Highlight / Focus
+
+Selected card receives an animated focus glow.
+
+The glow should react together with:
+
+scale
+depth
+shadow
+border intensity
+
+Inactive cards become slightly less prominent.
+
+The glow should feel like a premium highlight—not neon overload.
+
+Avoid expensive giant animated blur filters.
+
+Prefer pseudo-elements and opacity/transform where possible.
+
+
+30 — CIRCLE CAROUSEL
+
+TYPE:
+Radial / 3D
+
+Arrange cards around an invisible circular or elliptical path.
+
+Each item position is derived from an angle.
+
+Conceptually calculate:
+
+x = radiusX × sin(angle)
+z = radiusZ × cos(angle)
+
+Optionally:
+
+y = subtle vertical curve
+
+Cards near the front:
+
+larger
+higher opacity
+higher z-index
+
+Cards near the rear:
+
+smaller
+lower opacity
+
+Navigation rotates the entire logical carousel by one angular step.
+
+Create the illusion of cards orbiting around a central axis.
+
+==================================================
+FRAMER MOTION REQUIREMENTS FOR COPIED PROMPTS
+==================================================
+
+Every animation's reusable prompt should tell the implementation agent to choose the appropriate Framer Motion APIs.
+
+Potential APIs include:
+
+motion.div
+variants
+animate
+initial
+whileHover
+whileTap
+whileInView
+useMotionValue
+useSpring
+useTransform
+useScroll
+useMotionValueEvent
+layout
+layoutId
+AnimatePresence
+
+Do NOT blindly use all APIs for every animation.
+
+Choose only what makes sense for that motion system.
+
+==================================================
+SPRING PHYSICS
+==================================================
+
+Prefer physically coherent spring motion for interactive animations.
+
+General starting point:
+
+transition={{
+  type: "spring",
+  stiffness: 180,
+  damping: 24,
+  mass: 0.8
+}}
+
+Do NOT apply this exact configuration everywhere.
+
+For:
+
+Elastic Bounce:
+use lower damping.
+
+For:
+
+Minimal Fade & Slide:
+prefer tween/easing.
+
+For:
+
+Pointer tracking:
+use motion values + springs.
+
+For:
+
+Continuous loops:
+use linear timing.
+
+Motion character must match the animation.
+
+==================================================
+LIVE ANIMATION LIBRARY UI
+==================================================
+
+Create a responsive animation gallery.
+
+Header:
+
+MotionCards
+Animations
+Categories
+Search
+
+Hero:
+
+"30 Card Animation Styles"
+
+Subtitle:
+
+"Explore the motion. Preview it live. Copy it anywhere."
+
+FILTERS:
+
+All
+3D
+Carousel
+Hover
+Interactive
+Scroll
+Stack
+Loop
+Focus
+Creative
+Minimal
+Experimental
+
+Below:
+
+30 animation showcase cards.
+
+Desktop:
+3 cards per row
+
+Tablet:
+2
+
+Mobile:
+1
+
+Each showcase contains:
+
+Animation number
+Animation name
+Category
+LIVE mini preview
+Short description
+Interaction type
+View Demo
+Copy Prompt
+
+==================================================
+LIVE MINI PREVIEWS
+==================================================
+
+This is critical.
+
+DO NOT create static screenshots.
+
+Every grid item must contain a functional miniature demonstration.
+
+For example:
+
+Coverflow:
+miniature cards should actually navigate through Coverflow.
+
+Tilt:
+responds to pointer.
+
+Infinite Loop:
+actually continuously loops.
+
+Scroll animations:
+demonstrate when entering viewport.
+
+Flip:
+actually flips.
+
+Magnetic:
+responds to cursor proximity.
+
+Circle Carousel:
+actually rotates around its radial path.
+
+Keep previews lightweight.
+
+Pause unnecessary off-screen animations using IntersectionObserver.
+
+==================================================
+FULL DEMO
+==================================================
+
+Clicking:
+
+View Demo
+
+opens a large modal.
+
+Show:
+
+Animation name
+Animation category
+Description
+Large working preview
+Controls
+Interaction instructions
+Motion breakdown
+Recommended use cases
+Reusable prompt
+
+Include:
+
+COPY PROMPT
+
+The large demo should provide enough space to clearly understand the complete animation.
+
+==================================================
+COPY PROMPT SYSTEM
+==================================================
+
+Create 30 separate reusable prompts.
+
+Do NOT generate a generic prompt that merely changes the animation name.
+
+Each prompt must accurately describe its specific motion mechanics.
+
+Every prompt should include:
+
+1. Purpose
+2. Motion behavior
+3. Initial state
+4. Active state
+5. Inactive state where relevant
+6. Transform strategy
+7. Framer Motion implementation
+8. Spring/easing configuration
+9. Navigation/interaction
+10. Responsive behavior
+11. Performance
+12. Accessibility
+13. Reusability
+14. Existing-UI preservation rule
+
+Store prompts separately from UI logic.
+
+Example metadata:
+
+{
+  id: "coverflow",
+  number: 1,
+  name: "3D Coverflow",
+  category: ["3D", "Carousel"],
+  description: "...",
+  interaction: ["drag", "swipe", "arrows"],
+  bestFor: [
+    "Portfolio",
+    "Products",
+    "Gallery"
+  ],
+  prompt: "...",
+  previewType: "coverflow"
+}
+
+==================================================
+ARCHITECTURE
+==================================================
+
+Use:
+
+motioncards/
+│
+├── index.html
+│
+├── css/
+│   ├── variables.css
+│   ├── layout.css
+│   ├── components.css
+│   └── animations.css
+│
+├── js/
+│   ├── app.js
+│   ├── data.js
+│   ├── previews.js
+│   ├── interactions.js
+│   ├── modal.js
+│   └── prompts.js
+│
+└── README.md
+
+data.js:
+metadata for all 30 animations.
+
+prompts.js:
+30 complete reusable Framer Motion prompts.
+
+previews.js:
+preview initialization.
+
+interactions.js:
+shared pointer/drag/navigation utilities.
+
+modal.js:
+full demo modal.
+
+app.js:
+application initialization, filtering and search.
+
+==================================================
+PERFORMANCE
+==================================================
+
+Do not run 30 complex animations continuously.
+
+Animations should have three behaviors:
+
+AUTOPLAY:
+Only where necessary.
+
+Examples:
+Infinite Loop
+Wave
+
+DEMO CYCLE:
+Run animation
+→ pause
+→ repeat
+
+INTERACTIVE:
+Only animate when user interacts.
+
+Examples:
+Tilt
+Magnetic
+Flip Reveal
+
+Use IntersectionObserver:
+
+if preview leaves viewport:
+pause unnecessary animation.
+
+Prefer GPU-friendly transforms.
+
+==================================================
+RESPONSIVE MOTION
+==================================================
+
+Animations must adapt—not simply shrink.
+
+Desktop:
+full animation geometry.
+
+Tablet:
+slightly reduce distances, depth and perspective.
+
+Mobile:
+reduce large rotations and translation distances while preserving the recognizable animation.
+
+Touch interactions must replace hover-only dependencies.
+
+Never create horizontal document overflow.
+
+==================================================
+ACCESSIBILITY
+==================================================
+
+Respect:
+
+prefers-reduced-motion
+
+Provide reduced-motion alternatives.
+
+Support keyboard controls where applicable.
+
+Ensure focus states remain visible.
+
+Interactive cards cannot rely exclusively on hover.
+
+==================================================
+QUALITY CONTROL
+==================================================
+
+Before considering an animation complete, verify:
+
+✓ No
