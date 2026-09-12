@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MotionCards - 70 Reusable Card Animation Systems</title>
+<title>MotionCards - 110 Reusable Card Animation Systems</title>
 <style>
 :root {
   color-scheme: dark;
@@ -264,6 +264,20 @@ button { -webkit-tap-highlight-color: transparent; }
   height: 100%;
   transform-style: preserve-3d;
 }
+.mini-stage::before,
+.demo-stage::before {
+  content: attr(data-pattern);
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  z-index: 1;
+  max-width: calc(100% - 32px);
+  color: rgba(255,255,255,.48);
+  font: 10px/1 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.demo-stage::before { font-size: 12px; }
 .mini-card, .demo-card {
   position: absolute;
   left: 50%;
@@ -291,6 +305,62 @@ button { -webkit-tap-highlight-color: transparent; }
   inset: 9px;
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,.12);
+}
+.pattern-accordion .mini-card,
+.pattern-accordion .demo-card { width: var(--w); transform-origin: center; }
+.pattern-peel .mini-card:nth-child(3),
+.pattern-peel .demo-card:nth-child(3) {
+  clip-path: polygon(0 0, 84% 0, 100% 16%, 100% 100%, 0 100%);
+  transform-origin: 100% 0;
+}
+.pattern-peel .mini-card:nth-child(3)::before,
+.pattern-peel .demo-card:nth-child(3)::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  background: rgba(255,255,255,.32);
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+.pattern-spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 34px 26%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255,255,255,.22), transparent 68%);
+  animation: spotlightSweep 4s ease-in-out infinite;
+}
+.pattern-grid .mini-card,
+.pattern-grid .demo-card { width: 62px; height: 78px; }
+.pattern-fold .mini-card,
+.pattern-fold .demo-card { width: 54px; transform-origin: left center; }
+.pattern-corridor .mini-card:nth-child(odd),
+.pattern-corridor .demo-card:nth-child(odd) { transform-origin: right center; }
+.pattern-corridor .mini-card:nth-child(even),
+.pattern-corridor .demo-card:nth-child(even) { transform-origin: left center; }
+.pattern-reflection .mini-card::before,
+.pattern-reflection .demo-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 12px);
+  height: 70%;
+  border-radius: inherit;
+  background: inherit;
+  opacity: .22;
+  filter: blur(2px);
+  transform: scaleY(-.55);
+}
+.pattern-tap .mini-card:nth-child(3),
+.pattern-tap .demo-card:nth-child(3) { outline: 3px solid rgba(34,211,238,.35); }
+.pattern-scroll .mini-card,
+.pattern-scroll .demo-card { animation-duration: 3.2s; }
+@keyframes spotlightSweep {
+  0%, 100% { transform: translateX(-42px) scale(.82); opacity: .55; }
+  50% { transform: translateX(42px) scale(1.15); opacity: .9; }
 }
 .motion-a { animation: motionA 4.8s var(--spring) infinite; }
 .motion-b { animation: motionB 5s ease-in-out infinite; }
@@ -567,7 +637,7 @@ button { -webkit-tap-highlight-color: transparent; }
       </label>
       <nav class="nav" aria-label="Library sections">
         <a href="#library">Library</a>
-        <a href="#new">31-70 New</a>
+        <a href="#new">31-110 New</a>
         <a href="#prompts">Prompts</a>
       </nav>
     </div>
@@ -575,7 +645,7 @@ button { -webkit-tap-highlight-color: transparent; }
   <main>
     <section class="hero">
       <div>
-        <span class="pill">70 reusable card motion systems</span>
+        <span class="pill">110 reusable card motion systems</span>
         <h1>Browse motion, open the demo, copy the prompt, reuse it anywhere.</h1>
         <p>A complete reference library for applying advanced Framer Motion card behavior to existing UI without redesigning the component itself.</p>
         <div class="hero-actions">
@@ -588,8 +658,8 @@ button { -webkit-tap-highlight-color: transparent; }
           <div class="mini-stage" id="heroPreview"></div>
         </div>
         <div class="stats">
-          <div class="stat"><strong>70</strong><span>Total animations</span></div>
-          <div class="stat"><strong>40</strong><span>New systems</span></div>
+          <div class="stat"><strong>110</strong><span>Total animations</span></div>
+          <div class="stat"><strong>80</strong><span>New systems</span></div>
           <div class="stat"><strong>100%</strong><span>Copy-ready prompts</span></div>
         </div>
       </aside>
@@ -702,6 +772,49 @@ const newAnimations = [
   ["Kinetic Masonry", "Layout / Motion", "Cards reorganize into a masonry-like layout with height-aware movement and soft focus.", "Change category, sort order, or selected card.", "layout animation, AnimatePresence, and staggered depth shifts keep masonry changes readable.", "blog cards, portfolio grids, resource libraries"]
 ];
 
+const extraAnimations = [
+  ["Tap Pulse Confirm", "Tap / Feedback", "A tapped card compresses, releases, and emits a soft confirmation pulse.", "Tap or press Enter on a card.", "whileTap, scale, box-shadow, and a short radial pulse communicate immediate feedback.", "actions, selections, purchase cards, settings tiles"],
+  ["Tap Flip Detail", "Tap / 3D Reveal", "A tap flips the card to show a secondary detail side without changing layout.", "Tap the card to toggle front and back.", "rotateY, transform-style, backface-visibility, and AnimatePresence keep both sides readable.", "profiles, pricing, product specs, flash cards"],
+  ["Tap Lift Sheet", "Tap / Layout", "The selected card rises into a compact detail sheet while the grid stays visible behind.", "Tap a card, then close the sheet.", "layoutId and shared element transitions connect the card to the expanded detail view.", "portfolio grids, product cards, dashboards"],
+  ["Tap Radial Menu", "Tap / Interactive", "A card tap reveals small action chips that orbit around the selected element.", "Tap once to open actions, tap outside to close.", "staggered scale and circular x/y offsets create a controlled radial reveal.", "quick actions, admin tools, media controls"],
+  ["Tap Split Reveal", "Tap / Reveal", "The card splits from the center and reveals content beneath.", "Tap to open, tap again to close.", "Two masks move apart with mirrored x transforms while the base card remains stable.", "offers, hidden data, feature explainers"],
+  ["Tap Stamp", "Tap / Feedback", "A decisive stamp motion marks the card as selected or approved.", "Tap to stamp the card state.", "scale, rotate, and a brief overlay mark animate with spring timing.", "approval cards, status changes, task boards"],
+  ["Tap Ripple Ring", "Tap / Focus", "Tap sends expanding rings from the card center while the card stays in place.", "Tap any card to trigger the ripple.", "Animated pseudo layers expand through scale and opacity without moving layout.", "mobile cards, menus, gallery selection"],
+  ["Tap Stack Select", "Tap / Stack", "A selected card pops out from a stack, then returns when another card is selected.", "Tap stacked items to select active card.", "z-index, translateY, scale, and layout transitions isolate the chosen card.", "saved items, review queues, card piles"],
+  ["Double Tap Favorite", "Tap / Microinteraction", "A double tap creates a heart-like burst and settles the card into favorite state.", "Double tap or double click.", "AnimatePresence particles use staggered scale, opacity, and y drift.", "social cards, products, media items"],
+  ["Long Press Expand", "Tap / Mobile", "Holding a card expands its content area and reveals contextual actions.", "Long press on mobile or mouse down on desktop.", "press duration controls layout scale and action reveal while preserving content.", "mobile apps, touch dashboards, cards with actions"],
+  ["Scroll Pin Focus", "Scroll / Focus", "Cards pin briefly during scroll while the active card sharpens and scales.", "Scroll through the section.", "useScroll progress maps each item to scale, opacity, and blur.", "case studies, storytelling sections, feature reveals"],
+  ["Scroll Stack Unpack", "Scroll / Stack", "A deck unpacks into separate cards as the user scrolls down.", "Scroll down to unpack, scroll up to restack.", "scroll progress controls staggered x/y offsets and rotations.", "landing pages, process sections, portfolios"],
+  ["Scroll Depth Ladder", "Scroll / 3D", "Cards climb forward through depth layers as scrolling advances.", "Scroll the viewport or container.", "translateZ, scale, and opacity are derived from scroll progress.", "product tours, immersive explainers"],
+  ["Scroll Horizontal Rail", "Scroll / Path", "Vertical scroll drives a horizontal card rail with active center focus.", "Scroll vertically to move horizontally.", "useScroll and useTransform map y progress to x translation and active emphasis.", "galleries, timelines, landing sections"],
+  ["Scroll Sticky Deck", "Scroll / Interactive", "A sticky deck swaps cards one at a time while the section remains pinned.", "Scroll through the deck section.", "AnimatePresence and scroll thresholds replace active cards with direction-aware exits.", "feature walkthroughs, onboarding, stories"],
+  ["Scroll Parallax Tiles", "Scroll / Depth", "Tiles move at independent parallax speeds for a layered wall effect.", "Scroll past the grid.", "Each card receives a different y transform range and damping.", "editorial grids, image walls, showcases"],
+  ["Scroll Scale Ladder", "Scroll / Sequential", "Cards scale up in sequence as they approach the viewport center.", "Scroll down a list.", "Intersection or scroll progress drives item-local scale and shadow.", "lists, blogs, service pages"],
+  ["Scroll Rotate Reveal", "Scroll / 3D Reveal", "Cards rotate from edge-on into readable view while entering the viewport.", "Scroll until each card appears.", "whileInView, rotateY, opacity, and perspective create a clean reveal.", "portfolio entries, team cards, product rows"],
+  ["Scroll Curtain Cards", "Scroll / Reveal", "A curtain layer slides off each card as it enters view.", "Scroll through the card grid.", "mask x/y transforms expose the original card without changing structure.", "case studies, image galleries, feature cards"],
+  ["Scroll Timeline Cards", "Scroll / Layout", "Cards snap along a vertical timeline, with the current card expanded.", "Scroll through chronological content.", "layout animation and viewport progress coordinate active height and emphasis.", "timelines, journey pages, roadmaps"],
+  ["Hover Magnetic Border", "Pointer / Hover", "A glowing border follows the pointer around the card edge.", "Move pointer across card edges.", "Mouse position drives radial gradient border position and subtle tilt.", "premium cards, product listings, feature tiles"],
+  ["Hover Content Float", "Pointer / Hover", "Inner content floats at different depths while the shell remains stable.", "Hover or focus a card.", "Nested transforms and small translateZ offsets create layered hover depth.", "services, testimonials, portfolio cards"],
+  ["Hover Image Sweep", "Pointer / Reveal", "A preview image or visual layer sweeps across the card on hover.", "Hover or focus the card.", "clip-path and x transform reveal a visual layer without replacing content.", "product cards, blog posts, media cards"],
+  ["Hover Compare Slider", "Pointer / Interactive", "Pointer position controls a before/after split inside the card.", "Move pointer horizontally over the card.", "useMotionValue maps pointer x to mask width and handle position.", "before-after cards, design comparisons, image tools"],
+  ["Hover Elastic Corner", "Pointer / Physics", "Card corners subtly stretch toward the pointer and settle back.", "Move pointer near a corner.", "Distance from pointer to corners drives spring-smoothed skew and scale.", "creative portfolios, interactive heroes"],
+  ["Drag Tilt Deck", "Drag / 3D", "Dragging the active card tilts the whole deck based on drag direction.", "Drag the top card.", "drag motion values drive deck rotateX/rotateY and neighbor parallax.", "swipe decks, review cards, media stacks"],
+  ["Drag Snap Slots", "Drag / Layout", "Cards drag between visible slots and snap into exact positions.", "Drag a card into another slot.", "layout animation, constraints, and collision thresholds keep slots stable.", "dashboards, builders, kanban boards"],
+  ["Drag Rubber Band", "Drag / Physics", "The card stretches against boundaries and springs back on release.", "Drag past the edge of the allowed area.", "dragElastic, constraints, and spring return produce restrained rubber-band movement.", "mobile cards, carousel edges, sheets"],
+  ["Drag Reveal Actions", "Drag / Mobile", "Dragging a card sideways reveals action buttons underneath.", "Swipe left or right on a card.", "x motion value controls reveal width, snap threshold, and action opacity.", "mail rows, task cards, mobile lists"],
+  ["Drag Throw Stack", "Drag / Stack", "Thrown cards leave the deck with velocity while the next card rises.", "Drag and release with velocity.", "velocity thresholds, AnimatePresence exits, and stack promotion create the throw.", "review queues, onboarding choices, media moderation"],
+  ["Focus Keyboard Ring", "Focus / Accessibility", "Keyboard focus creates a visible animated ring and gentle lift.", "Tab through cards.", "focus-visible state animates outline, shadow, and scale without pointer dependency.", "accessible card grids, dashboards, forms"],
+  ["Focus Expand Row", "Focus / Layout", "Focused card expands inside a row while sibling cards compress.", "Tab or arrow through the row.", "layout animation and roving active index preserve keyboard navigation.", "menus, service rows, product selectors"],
+  ["Focus Dim Surround", "Focus / Accessibility", "Focused card stays bright while surrounding cards reduce opacity.", "Keyboard focus or pointer hover.", "Parent active state maps non-active cards to lower opacity and blur.", "dense grids, galleries, dashboards"],
+  ["Focus Dock Cards", "Focus / Navigation", "Cards near focus enlarge like a dock while distant cards stay small.", "Move focus through the row.", "Distance from active index controls scale, y, and z-index.", "navigation cards, tool palettes, media strips"],
+  ["Focus Inspect Lens", "Focus / Detail", "A lens follows the active card and reveals extra metadata.", "Focus or hover any card.", "layoutId moves one lens element between cards and fades metadata in.", "analytics cards, product specs, file grids"],
+  ["Load Stagger Grid", "Entrance / Sequential", "Cards enter in a confident staggered grid sequence on first load.", "Load or revisit the page.", "container variants and child variants coordinate opacity, y, and scale.", "landing sections, gallery pages, dashboards"],
+  ["Load Spiral Entry", "Entrance / Path", "Cards enter from a spiral path and land in their final grid slots.", "Page load or section mount.", "x/y/rotate values are based on each card index before layout settles.", "creative galleries, hero card clusters"],
+  ["Load Curtain Drop", "Entrance / Reveal", "Cards appear as vertical curtains drop away from each tile.", "Page load or scroll into view.", "mask scaleY and staggered opacity reveal the preserved card UI.", "portfolio grids, content libraries"],
+  ["Load Depth Pop", "Entrance / 3D", "Cards pop forward from deep space into their layout positions.", "Load or scroll into view.", "translateZ, scale, and opacity move each card from depth to final layout.", "3D showcases, product grids"],
+  ["Load Wave Sweep", "Entrance / Sequential", "A wave of cards moves across the grid from one corner to the other.", "Page load or filter update.", "Delay derives from row and column position, creating a diagonal wave.", "dashboards, card collections, results grids"]
+];
+
 const existingDetails = [
   "Use CSS 3D transforms and Framer Motion variants to keep the existing card content intact.",
   "Provide live preview, full demo, prompt copy, keyboard focus, and reduced-motion handling.",
@@ -716,7 +829,7 @@ const animations = [
     useCases: "cards, images, products, testimonials, services, portfolio items",
     isNew: false
   })),
-  ...newAnimations.map((item, i) => ({
+  ...[...newAnimations, ...extraAnimations].map((item, i) => ({
     id: i + 31, name: item[0], category: item[1], description: item[2],
     interaction: item[3], explanation: item[4], useCases: item[5], isNew: true
   }))
@@ -730,13 +843,106 @@ const positions = [
   {x:"54px", y:"6px", z:"-42px", r:"18deg", rx:"8deg", s:.88, o:.78},
   {x:"108px", y:"-16px", z:"-110px", r:"38deg", rx:"-10deg", s:.72, o:.46}
 ];
+const patternConfigs = {
+  coverflow: {label:"3D Coverflow", motion:"motion-a", points: positions},
+  stack: {label:"Layer Stack", motion:"motion-e", points:[
+    {x:"-12px", y:"-22px", z:"-130px", r:"-10deg", rx:"0deg", s:.78, o:.5, w:76},
+    {x:"-6px", y:"-12px", z:"-72px", r:"-5deg", rx:"0deg", s:.88, o:.7, w:76},
+    {x:"0px", y:"0px", z:"44px", r:"0deg", rx:"0deg", s:1.08, o:1, w:76},
+    {x:"8px", y:"12px", z:"-72px", r:"5deg", rx:"0deg", s:.88, o:.7, w:76},
+    {x:"14px", y:"24px", z:"-130px", r:"10deg", rx:"0deg", s:.78, o:.5, w:76}
+  ]},
+  fan: {label:"Fan Spread", motion:"motion-b", points:[
+    {x:"-112px", y:"28px", z:"-30px", r:"-34deg", rx:"0deg", s:.86, o:.78, w:76},
+    {x:"-56px", y:"6px", z:"0px", r:"-17deg", rx:"0deg", s:.94, o:.9, w:76},
+    {x:"0px", y:"-4px", z:"60px", r:"0deg", rx:"0deg", s:1.04, o:1, w:76},
+    {x:"56px", y:"6px", z:"0px", r:"17deg", rx:"0deg", s:.94, o:.9, w:76},
+    {x:"112px", y:"28px", z:"-30px", r:"34deg", rx:"0deg", s:.86, o:.78, w:76}
+  ]},
+  vertical: {label:"Vertical Parallax", motion:"motion-g", points:[
+    {x:"-86px", y:"-70px", z:"-100px", r:"-8deg", rx:"18deg", s:.72, o:.52, w:70},
+    {x:"-42px", y:"-30px", z:"-40px", r:"6deg", rx:"8deg", s:.86, o:.74, w:70},
+    {x:"0px", y:"6px", z:"70px", r:"0deg", rx:"0deg", s:1.05, o:1, w:78},
+    {x:"42px", y:"44px", z:"-40px", r:"-5deg", rx:"-8deg", s:.86, o:.74, w:70},
+    {x:"86px", y:"82px", z:"-100px", r:"8deg", rx:"-18deg", s:.72, o:.52, w:70}
+  ]},
+  grid: {label:"Snap Grid", motion:"motion-j", points:[
+    {x:"-72px", y:"-46px", z:"0px", r:"0deg", rx:"0deg", s:.92, o:.88, w:62},
+    {x:"0px", y:"-46px", z:"20px", r:"0deg", rx:"0deg", s:.98, o:1, w:62},
+    {x:"72px", y:"-46px", z:"0px", r:"0deg", rx:"0deg", s:.92, o:.88, w:62},
+    {x:"-36px", y:"48px", z:"-20px", r:"0deg", rx:"0deg", s:.88, o:.78, w:62},
+    {x:"36px", y:"48px", z:"-20px", r:"0deg", rx:"0deg", s:.88, o:.78, w:62}
+  ]},
+  orbit: {label:"Orbit", motion:"motion-f", points:[
+    {x:"0px", y:"-86px", z:"-80px", r:"0deg", rx:"0deg", s:.75, o:.55, w:70},
+    {x:"-100px", y:"-18px", z:"0px", r:"-14deg", rx:"0deg", s:.9, o:.82, w:70},
+    {x:"0px", y:"0px", z:"90px", r:"0deg", rx:"0deg", s:1.12, o:1, w:82},
+    {x:"100px", y:"-18px", z:"0px", r:"14deg", rx:"0deg", s:.9, o:.82, w:70},
+    {x:"0px", y:"84px", z:"-90px", r:"0deg", rx:"0deg", s:.72, o:.48, w:70}
+  ]},
+  tunnel: {label:"Depth Tunnel", motion:"motion-c", points:[
+    {x:"0px", y:"0px", z:"-320px", r:"0deg", rx:"0deg", s:.46, o:.28, w:68},
+    {x:"0px", y:"0px", z:"-190px", r:"0deg", rx:"0deg", s:.62, o:.45, w:70},
+    {x:"0px", y:"0px", z:"-70px", r:"0deg", rx:"0deg", s:.82, o:.72, w:74},
+    {x:"0px", y:"0px", z:"60px", r:"0deg", rx:"0deg", s:1.06, o:1, w:80},
+    {x:"0px", y:"0px", z:"180px", r:"0deg", rx:"0deg", s:1.24, o:.54, w:86}
+  ]},
+  peel: {label:"Corner Peel", motion:"motion-d", points:[
+    {x:"-82px", y:"26px", z:"-50px", r:"-8deg", rx:"0deg", s:.82, o:.55, w:72},
+    {x:"0px", y:"0px", z:"80px", r:"0deg", rx:"26deg", s:1.1, o:1, w:86},
+    {x:"82px", y:"26px", z:"-50px", r:"8deg", rx:"0deg", s:.82, o:.55, w:72}
+  ]},
+  fold: {label:"Fold Panels", motion:"motion-h", points:[
+    {x:"-70px", y:"0px", z:"10px", r:"-42deg", rx:"0deg", s:.98, o:.9, w:54},
+    {x:"-18px", y:"0px", z:"48px", r:"-18deg", rx:"0deg", s:1, o:1, w:54},
+    {x:"34px", y:"0px", z:"20px", r:"22deg", rx:"0deg", s:.98, o:.9, w:54}
+  ]},
+  corridor: {label:"Perspective Corridor", motion:"motion-i", points:[
+    {x:"-120px", y:"-54px", z:"-220px", r:"58deg", rx:"0deg", s:.52, o:.42, w:68},
+    {x:"118px", y:"-26px", z:"-120px", r:"-58deg", rx:"0deg", s:.68, o:.62, w:68},
+    {x:"-106px", y:"20px", z:"10px", r:"50deg", rx:"0deg", s:.88, o:.86, w:72},
+    {x:"96px", y:"54px", z:"90px", r:"-46deg", rx:"0deg", s:1.02, o:1, w:78}
+  ]},
+  reflection: {label:"Reflection", motion:"motion-a", points: positions.map(item => ({...item, y:"-34px"}))},
+  tap: {label:"Tap Feedback", motion:"motion-j", points:[
+    {x:"-76px", y:"14px", z:"-40px", r:"-8deg", rx:"0deg", s:.82, o:.66, w:72},
+    {x:"0px", y:"0px", z:"80px", r:"0deg", rx:"0deg", s:1.12, o:1, w:86},
+    {x:"76px", y:"14px", z:"-40px", r:"8deg", rx:"0deg", s:.82, o:.66, w:72}
+  ]},
+  scroll: {label:"Scroll Stagger", motion:"motion-g", points:[
+    {x:"-86px", y:"76px", z:"-70px", r:"-6deg", rx:"0deg", s:.72, o:.35, w:70},
+    {x:"-42px", y:"32px", z:"-20px", r:"3deg", rx:"0deg", s:.86, o:.62, w:72},
+    {x:"0px", y:"-4px", z:"70px", r:"0deg", rx:"0deg", s:1.08, o:1, w:80},
+    {x:"42px", y:"-38px", z:"-20px", r:"-3deg", rx:"0deg", s:.86, o:.62, w:72},
+    {x:"86px", y:"-80px", z:"-70px", r:"6deg", rx:"0deg", s:.72, o:.35, w:70}
+  ]}
+};
+
+function patternFor(animation) {
+  const text = `${animation.name} ${animation.category}`.toLowerCase();
+  if (text.includes("peel")) return "peel";
+  if (text.includes("fold") || text.includes("book") || text.includes("page")) return "fold";
+  if (text.includes("corridor") || text.includes("gallery wall")) return "corridor";
+  if (text.includes("reflection")) return "reflection";
+  if (text.includes("grid") || text.includes("masonry") || text.includes("reorder") || text.includes("slots")) return "grid";
+  if (text.includes("orbit") || text.includes("wheel") || text.includes("sphere")) return "orbit";
+  if (text.includes("tunnel") || text.includes("portal") || text.includes("depth")) return "tunnel";
+  if (text.includes("fan") || text.includes("burst") || text.includes("spread")) return "fan";
+  if (text.includes("stack") || text.includes("deck")) return "stack";
+  if (text.includes("scroll") || text.includes("load")) return "scroll";
+  if (text.includes("tap") || text.includes("press") || text.includes("favorite") || text.includes("stamp")) return "tap";
+  if (text.includes("accordion") || text.includes("expand")) return "accordion";
+  if (text.includes("vertical") || text.includes("waterfall")) return "vertical";
+  return ["coverflow", "stack", "fan", "vertical", "grid", "orbit", "tunnel", "corridor"][animation.id % 8];
+}
+
 const library = document.getElementById("library");
 const filters = document.getElementById("filters");
 const search = document.getElementById("search");
 const empty = document.getElementById("empty");
 const modalOverlay = document.getElementById("modalOverlay");
 const demoStage = document.getElementById("demoStage");
-const categories = ["All", "New 31-70", "3D", "Physics", "Layout", "Drag", "Focus", "Path", "Stack", "Pointer", "Reveal"];
+const categories = ["All", "New 31-110", "Tap", "Scroll", "Hover", "Drag", "Focus", "3D", "Physics", "Layout", "Path", "Stack", "Pointer", "Reveal"];
 let activeFilter = "All";
 let activeAnimation = animations[30];
 let demoOffset = 0;
@@ -774,11 +980,14 @@ ${animation.useCases}.`;
 }
 function cardPreview(animation, size = "mini") {
   const stage = document.createElement("div");
-  stage.className = `${size}-stage`;
-  const cls = motionClasses[(animation.id - 1) % motionClasses.length];
-  const spread = animation.id >= 31 ? 1 + ((animation.id % 7) * .05) : 1;
-  for (let i = 0; i < 5; i++) {
-    const pos = positions[i];
+  const pattern = patternFor(animation);
+  const config = patternConfigs[pattern] || patternConfigs.coverflow;
+  stage.className = `${size}-stage pattern-${pattern}`;
+  stage.dataset.pattern = config.label;
+  const cls = config.motion || motionClasses[(animation.id - 1) % motionClasses.length];
+  const spread = animation.id >= 31 ? 1 + ((animation.id % 7) * .035) : 1;
+  for (let i = 0; i < config.points.length; i++) {
+    const pos = config.points[i];
     const card = document.createElement("div");
     const palette = colors[(animation.id + i) % colors.length];
     card.className = `${size}-card ${cls}`;
@@ -789,11 +998,13 @@ function cardPreview(animation, size = "mini") {
     const y = parseFloat(pos.y);
     const r = parseFloat(pos.r);
     const rx = parseFloat(pos.rx);
+    const w = pos.w || 76;
     card.style.setProperty("--x", `${x}px`);
     card.style.setProperty("--y", pos.y);
     card.style.setProperty("--z", pos.z);
     card.style.setProperty("--r", pos.r);
     card.style.setProperty("--rx", pos.rx);
+    card.style.setProperty("--w", `${w}px`);
     card.style.setProperty("--x2", `${x * -1}px`);
     card.style.setProperty("--r2", `${r * -1}deg`);
     card.style.setProperty("--rx2", `${rx * -1}deg`);
@@ -807,7 +1018,7 @@ function cardPreview(animation, size = "mini") {
     card.style.setProperty("--yWide", `${y * 1.7}px`);
     card.style.setProperty("--s", pos.s);
     card.style.setProperty("--o", pos.o);
-    card.style.animationDelay = `${i * -0.28}s`;
+    card.style.animationDelay = `${(i * -0.28) - ((animation.id % 5) * .08)}s`;
     stage.append(card);
   }
   return stage;
@@ -817,7 +1028,7 @@ function renderFilters() {
 }
 function matchesFilter(animation) {
   if (activeFilter === "All") return true;
-  if (activeFilter === "New 31-70") return animation.isNew;
+  if (activeFilter === "New 31-110") return animation.isNew;
   return animation.category.toLowerCase().includes(activeFilter.toLowerCase());
 }
 function renderLibrary() {
