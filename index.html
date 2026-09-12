@@ -1,246 +1,925 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Explore 30 live card animation styles with interactive demos and reusable implementation prompts.">
-<title>MotionCards — 30 Card Animation Styles</title>
-<link rel="stylesheet" href="css/styles.css">
-<link rel="stylesheet" href="css/animations.css">
-<script type="module" src="js/app.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MotionCards - 70 Reusable Card Animation Systems</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #07070d;
+  --surface: #10111b;
+  --line: rgba(255, 255, 255, .1);
+  --line-strong: rgba(255, 255, 255, .2);
+  --text: #f7f7fb;
+  --muted: #a5a7b8;
+  --dim: #717489;
+  --accent: #8b5cf6;
+  --cyan: #22d3ee;
+  --pink: #f472b6;
+  --radius: 18px;
+  --radius-lg: 24px;
+  --shadow: 0 24px 70px rgba(0, 0, 0, .42);
+  --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: "SF Mono", Consolas, "Liberation Mono", monospace;
+  --spring: cubic-bezier(.16, 1, .3, 1);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-height: 100svh;
+  font-family: var(--font);
+  background:
+    radial-gradient(circle at 18% -8%, rgba(34, 211, 238, .17), transparent 28rem),
+    radial-gradient(circle at 84% 4%, rgba(244, 114, 182, .15), transparent 26rem),
+    linear-gradient(180deg, #07070d 0%, #0b0c14 44%, #07070d 100%);
+  color: var(--text);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+button, input { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+.app { position: relative; isolation: isolate; }
+.app::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 78%);
+}
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--line);
+  background: rgba(7, 7, 13, .76);
+  backdrop-filter: blur(18px);
+}
+.header-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 14px clamp(16px, 3vw, 34px);
+  display: grid;
+  grid-template-columns: auto minmax(180px, 360px) auto;
+  align-items: center;
+  gap: 18px;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: max-content;
+  color: var(--text);
+  font-weight: 850;
+  letter-spacing: -.03em;
+  text-decoration: none;
+}
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: #06070c;
+  background: linear-gradient(135deg, var(--cyan), var(--pink));
+  box-shadow: 0 12px 40px rgba(34, 211, 238, .24);
+}
+.search-wrap { position: relative; }
+.search-wrap span {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dim);
+}
+.search {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .055);
+  color: var(--text);
+  padding: 11px 16px 11px 42px;
+  outline: none;
+}
+.search:focus {
+  border-color: rgba(34, 211, 238, .55);
+  box-shadow: 0 0 0 4px rgba(34, 211, 238, .14);
+}
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.nav a, .pill {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 9px 14px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, .045);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 650;
+}
+.hero {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: clamp(54px, 7vw, 104px) clamp(16px, 3vw, 34px) 34px;
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(320px, .6fr);
+  gap: clamp(26px, 5vw, 68px);
+  align-items: center;
+}
+.hero h1 {
+  margin: 0;
+  max-width: 880px;
+  font-size: clamp(42px, 7vw, 92px);
+  line-height: .94;
+  letter-spacing: -.07em;
+}
+.hero p {
+  max-width: 720px;
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: clamp(16px, 1.5vw, 20px);
+}
+.hero-actions {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.primary-link {
+  min-height: 48px;
+  padding: 13px 18px;
+  border-radius: 999px;
+  border: 0;
+  color: #05060a;
+  background: linear-gradient(135deg, var(--cyan), var(--pink));
+  font-weight: 850;
+  text-decoration: none;
+  box-shadow: 0 18px 55px rgba(244, 114, 182, .22);
+}
+.hero-panel {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.035));
+  box-shadow: var(--shadow);
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+.stat {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 14px;
+  background: rgba(0,0,0,.22);
+}
+.stat strong { display: block; font-size: clamp(22px, 3vw, 34px); line-height: 1; }
+.stat span { display: block; margin-top: 7px; color: var(--dim); font-size: 12px; }
+.filters {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 34px) 24px;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filters::-webkit-scrollbar { display: none; }
+.filter-btn {
+  flex: 0 0 auto;
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, .05);
+  padding: 10px 15px;
+  cursor: pointer;
+}
+.filter-btn.active {
+  color: #05060a;
+  border-color: transparent;
+  background: var(--cyan);
+  font-weight: 850;
+}
+.grid {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 34px) 90px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(330px, 100%), 1fr));
+  gap: 18px;
+}
+.card {
+  min-height: 460px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.028));
+  box-shadow: 0 20px 60px rgba(0,0,0,.24);
+  transition: transform .28s var(--spring), border-color .28s var(--spring), box-shadow .28s var(--spring);
+}
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(34, 211, 238, .36);
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, .2), 0 22px 80px rgba(34, 211, 238, .14);
+}
+.preview {
+  position: relative;
+  height: 236px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  perspective: 900px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(139, 92, 246, .28), transparent 42%),
+    linear-gradient(135deg, #11131f, #080910);
+}
+.preview::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 22px;
+}
+.mini-stage, .demo-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+.mini-card, .demo-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 76px;
+  height: 104px;
+  margin-left: -38px;
+  margin-top: -52px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-weight: 850;
+  color: rgba(255,255,255,.84);
+  border: 1px solid rgba(255,255,255,.16);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.19), transparent 38%),
+    linear-gradient(135deg, var(--c1), var(--c2));
+  box-shadow: 0 16px 44px rgba(0,0,0,.38);
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+}
+.mini-card::after, .demo-card::after {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.12);
+}
+.motion-a { animation: motionA 4.8s var(--spring) infinite; }
+.motion-b { animation: motionB 5s ease-in-out infinite; }
+.motion-c { animation: motionC 4.6s var(--spring) infinite; }
+.motion-d { animation: motionD 5.4s ease-in-out infinite; }
+.motion-e { animation: motionE 4.2s var(--spring) infinite; }
+.motion-f { animation: motionF 5.8s ease-in-out infinite; }
+.motion-g { animation: motionG 5.2s ease-in-out infinite; }
+.motion-h { animation: motionH 4.8s var(--spring) infinite; }
+.motion-i { animation: motionI 5.4s ease-in-out infinite; }
+.motion-j { animation: motionJ 5s var(--spring) infinite; }
+@keyframes motionA {
+  0%, 100% { transform: translate3d(var(--x), 0, var(--z)) rotateY(var(--r)) scale(var(--s)); opacity: var(--o); }
+  50% { transform: translate3d(var(--x2), -6px, calc(var(--z) + 80px)) rotateY(var(--r2)) scale(calc(var(--s) + .08)); opacity: 1; }
+}
+@keyframes motionB {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) rotate(var(--r)) scale(var(--s)); }
+  50% { transform: translate3d(calc(var(--x) + 18px), calc(var(--y) - 22px), var(--z)) rotate(calc(var(--r) + 11deg)) scale(calc(var(--s) + .05)); }
+}
+@keyframes motionC {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) rotateY(var(--r)) scale(var(--s)); filter: brightness(.82); }
+  45% { transform: translate3d(var(--xSmall), var(--y), 120px) rotateY(0deg) scale(1.08); filter: brightness(1.2); }
+}
+@keyframes motionD {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) rotateX(var(--rx)) rotateY(var(--r)) scale(var(--s)); }
+  55% { transform: translate3d(var(--x), calc(var(--y) + 26px), calc(var(--z) - 80px)) rotateX(calc(var(--rx) + 38deg)) rotateY(var(--r)) scale(calc(var(--s) - .04)); }
+}
+@keyframes motionE {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) rotate(var(--r)) scale(var(--s)); }
+  20% { transform: translate3d(var(--xBurst), var(--yBurst), var(--z)) rotate(calc(var(--r) + 22deg)) scale(calc(var(--s) + .06)); }
+  55% { transform: translate3d(var(--x), var(--y), var(--z)) rotate(var(--r)) scale(var(--s)); }
+}
+@keyframes motionF {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) rotateY(var(--r)) scale(var(--s)); opacity: var(--o); }
+  50% { transform: translate3d(calc(var(--x) + 28px), calc(var(--y) - 18px), calc(var(--z) + 150px)) rotateY(calc(var(--r) - 28deg)) scale(calc(var(--s) + .12)); opacity: 1; }
+}
+@keyframes motionG {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) rotate(var(--r)) scale(var(--s)); }
+  35% { transform: translate3d(calc(var(--x) + 8px), calc(var(--y) + 34px), var(--z)) rotate(calc(var(--r) - 10deg)) scale(calc(var(--s) - .03)); }
+  70% { transform: translate3d(calc(var(--x) - 8px), calc(var(--y) - 10px), var(--z)) rotate(calc(var(--r) + 6deg)) scale(var(--s)); }
+}
+@keyframes motionH {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) rotateY(var(--r)) scale(var(--s)); }
+  42% { transform: translate3d(var(--xTiny), var(--yTiny), 180px) rotateY(72deg) scale(1.12); }
+}
+@keyframes motionI {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) rotateX(var(--rx)) rotateY(var(--r)) scale(var(--s)); }
+  50% { transform: translate3d(var(--x2), calc(var(--y) + 18px), calc(var(--z) + 60px)) rotateX(var(--rx2)) rotateY(var(--r2)) scale(calc(var(--s) + .05)); }
+}
+@keyframes motionJ {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) rotate(var(--r)) scale(var(--s)); }
+  28% { transform: translate3d(var(--xWide), var(--yWide), var(--z)) rotate(calc(var(--r) + 34deg)) scale(calc(var(--s) + .08)); }
+  68% { transform: translate3d(var(--xSmall), var(--ySmall), calc(var(--z) + 120px)) rotate(0deg) scale(1.02); }
+}
+.card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+}
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+.num {
+  min-width: 46px;
+  min-height: 34px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 12px;
+  color: var(--cyan);
+  background: rgba(34, 211, 238, .11);
+  border: 1px solid rgba(34, 211, 238, .18);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.card h3 { margin: 0; font-size: 19px; line-height: 1.2; letter-spacing: -.025em; }
+.category {
+  align-self: flex-start;
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: var(--muted);
+  background: rgba(255,255,255,.045);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.desc { margin: 0; color: var(--muted); font-size: 14px; }
+.meta-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--dim);
+  font-size: 13px;
+}
+.meta-list li { display: grid; grid-template-columns: 16px 1fr; gap: 8px; }
+.meta-list li::before { content: "+"; color: var(--cyan); }
+.actions {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.btn {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  color: var(--text);
+  background: rgba(255,255,255,.055);
+  cursor: pointer;
+  font-weight: 750;
+}
+.btn:hover { border-color: var(--line-strong); background: rgba(255,255,255,.085); }
+.btn-primary { color: #05060a; border-color: transparent; background: var(--cyan); }
+.empty {
+  display: none;
+  max-width: 1480px;
+  margin: 0 auto 80px;
+  padding: 24px clamp(16px, 3vw, 34px);
+  color: var(--muted);
+}
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  padding: clamp(12px, 3vw, 28px);
+  background: rgba(3, 4, 9, .86);
+  backdrop-filter: blur(14px);
+}
+.modal-overlay.open { display: grid; place-items: center; }
+.modal {
+  width: min(1120px, 100%);
+  max-height: 92svh;
+  overflow: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: 28px;
+  background: #0d0e17;
+  box-shadow: var(--shadow);
+}
+.modal-head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  padding: 22px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(13, 14, 23, .9);
+  backdrop-filter: blur(14px);
+}
+.modal h2 { margin: 0; font-size: clamp(24px, 4vw, 42px); letter-spacing: -.04em; }
+.modal-subtitle { margin: 8px 0 0; color: var(--muted); }
+.close {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: rgba(255,255,255,.06);
+  cursor: pointer;
+  font-size: 22px;
+}
+.modal-content { padding: 22px; display: grid; gap: 20px; }
+.demo-preview {
+  min-height: 420px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(34,211,238,.18), transparent 34%),
+    linear-gradient(135deg, #141626, #07080f);
+  perspective: 1200px;
+  position: relative;
+}
+.demo-controls {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  z-index: 2;
+}
+.icon-btn {
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: rgba(0,0,0,.42);
+  cursor: pointer;
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.info {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px;
+  background: rgba(255,255,255,.035);
+}
+.info h4 { margin: 0 0 9px; font-size: 13px; color: var(--text); }
+.info p { margin: 0; color: var(--muted); font-size: 14px; }
+.prompt-box {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #07080f;
+}
+.prompt-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.prompt-title strong { font-size: 14px; }
+.prompt {
+  margin: 0;
+  max-height: 360px;
+  overflow: auto;
+  padding: 16px;
+  color: #c8cad8;
+  font: 12px/1.65 var(--mono);
+  white-space: pre-wrap;
+}
+@media (max-width: 900px) {
+  .header-inner { grid-template-columns: 1fr; }
+  .nav { justify-content: flex-start; overflow-x: auto; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-panel { order: -1; }
+  .info-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .brand { font-size: 15px; }
+  .hero h1 { font-size: clamp(38px, 14vw, 58px); }
+  .stats { grid-template-columns: 1fr; }
+  .card { min-height: 0; }
+  .actions { grid-template-columns: 1fr; }
+  .demo-preview { min-height: 330px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
 </head>
 <body>
-<a class="skip-link" href="#animations">Skip to animations</a>
 <div class="app">
-<header class="header"><div class="header-inner">
-<a class="logo" href="#top"><span class="logo-mark" aria-hidden="true">M</span>MotionCards</a>
-<nav class="nav" aria-label="Main navigation"><a href="#animations">Animations</a><a href="#categories">Categories</a></nav>
-<label class="search-wrap"><span class="sr-only">Search animations</span><span class="search-icon" aria-hidden="true">⌕</span><input class="search" type="search" aria-label="Search animations" placeholder="Search animations…" disabled></label>
-</div></header>
-<main id="top"><section class="hero"><p class="eyebrow">A PLAYGROUND FOR INTERFACE MOTION</p><h1>30 Card Animation Styles</h1><p>Explore the motion. Preview it live. Copy it anywhere.</p></section>
-<div class="filters" id="categories" role="group" aria-label="Filter by category"><button class="filter-btn active" data-category="All" aria-pressed="true" disabled>All</button><button class="filter-btn" data-category="3D" aria-pressed="false" disabled>3D</button><button class="filter-btn" data-category="Carousel" aria-pressed="false" disabled>Carousel</button><button class="filter-btn" data-category="Hover" aria-pressed="false" disabled>Hover</button><button class="filter-btn" data-category="Interactive" aria-pressed="false" disabled>Interactive</button><button class="filter-btn" data-category="Scroll" aria-pressed="false" disabled>Scroll</button><button class="filter-btn" data-category="Stack" aria-pressed="false" disabled>Stack</button><button class="filter-btn" data-category="Loop" aria-pressed="false" disabled>Loop</button><button class="filter-btn" data-category="Focus" aria-pressed="false" disabled>Focus</button><button class="filter-btn" data-category="Creative" aria-pressed="false" disabled>Creative</button><button class="filter-btn" data-category="Minimal" aria-pressed="false" disabled>Minimal</button><button class="filter-btn" data-category="Experimental" aria-pressed="false" disabled>Experimental</button></div>
-<div class="gallery-toolbar"><p id="result-count" role="status">30 animations</p><button id="pause-all" class="btn" aria-pressed="false" disabled>Pause animations</button></div>
-<noscript><p class="fallback">All 30 styles are listed below. Enable JavaScript to run live previews, search, and copy prompts.</p></noscript>
-<p class="fallback" id="load-status" role="status">Loading interactive previews…</p>
-<section class="grid" id="animations" aria-label="Animation gallery" tabindex="-1"><article class="card-item" data-id="coverflow">
-  <div class="card-preview" aria-label="3D Coverflow preview"><div class="preview-stage"><div class="motion-card">01</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">01</span><h2 class="card-title">3D Coverflow</h2></div>
-  <div class="card-cats"><span class="cat">3D</span><span class="cat">Carousel</span></div>
-  <p class="card-desc">Side cards rotate, recede, and move forward into center focus.</p><p class="interaction-label">Autoplay, swipe, or arrow keys</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="stack">
-  <div class="card-preview" aria-label="Stack Slider preview"><div class="preview-stage"><div class="motion-card">02</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">02</span><h2 class="card-title">Stack Slider</h2></div>
-  <div class="card-cats"><span class="cat">Stack</span><span class="cat">Carousel</span></div>
-  <p class="card-desc">Cycle through a layered deck as each front card moves to the back.</p><p class="interaction-label">Autoplay, swipe, or arrow keys</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="fan">
-  <div class="card-preview" aria-label="Fan Rotation preview"><div class="preview-stage"><div class="motion-card">03</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">03</span><h2 class="card-title">Fan Rotation</h2></div>
-  <div class="card-cats"><span class="cat">Interactive</span><span class="cat">Creative</span></div>
-  <p class="card-desc">Open a hand of cards around a shared lower pivot.</p><p class="interaction-label">Pointer, tap, or keyboard</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="vparallax">
-  <div class="card-preview" aria-label="Vertical Parallax preview"><div class="preview-stage"><div class="motion-card">04</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">04</span><h2 class="card-title">Vertical Parallax</h2></div>
-  <div class="card-cats"><span class="cat">Interactive</span><span class="cat">Experimental</span></div>
-  <p class="card-desc">Move through vertical layers that respond at different speeds.</p><p class="interaction-label">Pointer, tap, or keyboard</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="flip">
-  <div class="card-preview" aria-label="Flip Carousel preview"><div class="preview-stage"><div class="motion-card">05</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">05</span><h2 class="card-title">Flip Carousel</h2></div>
-  <div class="card-cats"><span class="cat">3D</span><span class="cat">Carousel</span></div>
-  <p class="card-desc">Rotate outgoing and incoming cards through a three-dimensional flip.</p><p class="interaction-label">Autoplay, swipe, or arrow keys</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="infinite">
-  <div class="card-preview" aria-label="Infinite Loop preview"><div class="preview-stage"><div class="motion-card">06</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">06</span><h2 class="card-title">Infinite Loop</h2></div>
-  <div class="card-cats"><span class="cat">Carousel</span><span class="cat">Loop</span></div>
-  <p class="card-desc">A continuous track of cards flows seamlessly from right to left.</p><p class="interaction-label">Autoplay, swipe, or arrow keys</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="tilt">
-  <div class="card-preview" aria-label="Tilt &amp; Hover preview"><div class="preview-stage"><div class="motion-card">07</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">07</span><h2 class="card-title">Tilt &amp; Hover</h2></div>
-  <div class="card-cats"><span class="cat">3D</span><span class="cat">Hover</span><span class="cat">Interactive</span></div>
-  <p class="card-desc">A card follows your pointer with a subtle, smooth tilt.</p><p class="interaction-label">Pointer, tap, or keyboard</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="expand">
-  <div class="card-preview" aria-label="Expanded Center preview"><div class="preview-stage"><div class="motion-card">08</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">08</span><h2 class="card-title">Expanded Center</h2></div>
-  <div class="card-cats"><span class="cat">Carousel</span><span class="cat">Focus</span></div>
-  <p class="card-desc">Bring the selected card forward while its neighbors contract.</p><p class="interaction-label">Autoplay, swipe, or arrow keys</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="scroll">
-  <div class="card-preview" aria-label="Scroll Triggered preview"><div class="preview-stage"><div class="motion-card">09</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">09</span><h2 class="card-title">Scroll Triggered</h2></div>
-  <div class="card-cats"><span class="cat">Scroll</span></div>
-  <p class="card-desc">Cards reveal in sequence when their preview enters the viewport.</p><p class="interaction-label">Scroll to explore</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="wave">
-  <div class="card-preview" aria-label="Wave Motion preview"><div class="preview-stage"><div class="motion-card">10</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">10</span><h2 class="card-title">Wave Motion</h2></div>
-  <div class="card-cats"><span class="cat">Loop</span><span class="cat">Experimental</span></div>
-  <p class="card-desc">A traveling wave lifts cards with gentle phase offsets.</p><p class="interaction-label">Autoplay, swipe, or arrow keys</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="cube">
-  <div class="card-preview" aria-label="Cube Rotation preview"><div class="preview-stage"><div class="motion-card">11</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">11</span><h2 class="card-title">Cube Rotation</h2></div>
-  <div class="card-cats"><span class="cat">3D</span><span class="cat">Carousel</span></div>
-  <p class="card-desc">Rotate actual faces around a virtual three-dimensional structure.</p><p class="interaction-label">Autoplay, swipe, or arrow keys</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="depth">
-  <div class="card-preview" aria-label="Depth Layer preview"><div class="preview-stage"><div class="motion-card">12</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">12</span><h2 class="card-title">Depth Layer</h2></div>
-  <div class="card-cats"><span class="cat">3D</span><span class="cat">Stack</span></div>
-  <p class="card-desc">Move cards between distinct depth planes and the foreground.</p><p class="interaction-label">Autoplay, swipe, or arrow keys</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="magnetic">
-  <div class="card-preview" aria-label="Magnetic Focus preview"><div class="preview-stage"><div class="motion-card">13</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">13</span><h2 class="card-title">Magnetic Focus</h2></div>
-  <div class="card-cats"><span class="cat">Hover</span><span class="cat">Interactive</span><span class="cat">Focus</span></div>
-  <p class="card-desc">Nearby cards respond to pointer distance with subtle attraction.</p><p class="interaction-label">Pointer, tap, or keyboard</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="progress">
-  <div class="card-preview" aria-label="Carousel with Progress preview"><div class="preview-stage"><div class="motion-card">14</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">14</span><h2 class="card-title">Carousel with Progress</h2></div>
-  <div class="card-cats"><span class="cat">Carousel</span></div>
-  <p class="card-desc">Navigate slides with synchronized progress and pagination.</p><p class="interaction-label">Autoplay, swipe, or arrow keys</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="curved">
-  <div class="card-preview" aria-label="3D Curved Card Flow preview"><div class="preview-stage"><div class="motion-card">15</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">15</span><h2 class="card-title">3D Curved Card Flow</h2></div>
-  <div class="card-cats"><span class="cat">3D</span><span class="cat">Carousel</span></div>
-  <p class="card-desc">Cards follow a curved path around an invisible cylinder.</p><p class="interaction-label">Autoplay, swipe, or arrow keys</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="zoom">
-  <div class="card-preview" aria-label="Card Zoom In preview"><div class="preview-stage"><div class="motion-card">16</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">16</span><h2 class="card-title">Card Zoom In</h2></div>
-  <div class="card-cats"><span class="cat">Hover</span><span class="cat">Focus</span></div>
-  <p class="card-desc">Lift and gently enlarge a selected card.</p><p class="interaction-label">Pointer, tap, or keyboard</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="slide">
-  <div class="card-preview" aria-label="Slide Reveal preview"><div class="preview-stage"><div class="motion-card">17</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">17</span><h2 class="card-title">Slide Reveal</h2></div>
-  <div class="card-cats"><span class="cat">Interactive</span><span class="cat">Creative</span></div>
-  <p class="card-desc">Slide a foreground cover aside to reveal content beneath.</p><p class="interaction-label">Pointer, tap, or keyboard</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="blur">
-  <div class="card-preview" aria-label="Blur to Focus preview"><div class="preview-stage"><div class="motion-card">18</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">18</span><h2 class="card-title">Blur to Focus</h2></div>
-  <div class="card-cats"><span class="cat">Focus</span><span class="cat">Carousel</span></div>
-  <p class="card-desc">The center card sharpens as neighboring cards soften.</p><p class="interaction-label">Autoplay, swipe, or arrow keys</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="split">
-  <div class="card-preview" aria-label="Split Card preview"><div class="preview-stage"><div class="motion-card">19</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">19</span><h2 class="card-title">Split Card</h2></div>
-  <div class="card-cats"><span class="cat">Interactive</span><span class="cat">Creative</span></div>
-  <p class="card-desc">Two aligned halves separate to reveal a second layer.</p><p class="interaction-label">Pointer, tap, or keyboard</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="flipstack">
-  <div class="card-preview" aria-label="Flip Stack preview"><div class="preview-stage"><div class="motion-card">20</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">20</span><h2 class="card-title">Flip Stack</h2></div>
-  <div class="card-cats"><span class="cat">3D</span><span class="cat">Stack</span></div>
-  <p class="card-desc">Flip the front card outward and cycle it behind the deck.</p><p class="interaction-label">Autoplay, swipe, or arrow keys</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="rotate">
-  <div class="card-preview" aria-label="Rotate &amp; Scale preview"><div class="preview-stage"><div class="motion-card">21</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">21</span><h2 class="card-title">Rotate &amp; Scale</h2></div>
-  <div class="card-cats"><span class="cat">Hover</span><span class="cat">Interactive</span></div>
-  <p class="card-desc">Combine a small rotation with a lifted, enlarged state.</p><p class="interaction-label">Pointer, tap, or keyboard</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="morph">
-  <div class="card-preview" aria-label="Morph Transition preview"><div class="preview-stage"><div class="motion-card">22</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">22</span><h2 class="card-title">Morph Transition</h2></div>
-  <div class="card-cats"><span class="cat">Creative</span></div>
-  <p class="card-desc">Transform one card continuously into a wider detail view.</p><p class="interaction-label">Pointer, tap, or keyboard</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="elastic">
-  <div class="card-preview" aria-label="Elastic Bounce preview"><div class="preview-stage"><div class="motion-card">23</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">23</span><h2 class="card-title">Elastic Bounce</h2></div>
-  <div class="card-cats"><span class="cat">Interactive</span><span class="cat">Experimental</span></div>
-  <p class="card-desc">A physical spring moves the selected card forward and settles.</p><p class="interaction-label">Pointer, tap, or keyboard</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="perspective">
-  <div class="card-preview" aria-label="Perspective Tilt preview"><div class="preview-stage"><div class="motion-card">24</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">24</span><h2 class="card-title">Perspective Tilt</h2></div>
-  <div class="card-cats"><span class="cat">3D</span><span class="cat">Interactive</span></div>
-  <p class="card-desc">Explore a stronger spatial tilt with independently raised content.</p><p class="interaction-label">Pointer, tap, or keyboard</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="fadeslide">
-  <div class="card-preview" aria-label="Fade &amp; Slide preview"><div class="preview-stage"><div class="motion-card">25</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">25</span><h2 class="card-title">Fade &amp; Slide</h2></div>
-  <div class="card-cats"><span class="cat">Minimal</span><span class="cat">Carousel</span></div>
-  <p class="card-desc">A restrained transition pairs directional movement with opacity.</p><p class="interaction-label">Autoplay, swipe, or arrow keys</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="shuffle">
-  <div class="card-preview" aria-label="Card Shuffle preview"><div class="preview-stage"><div class="motion-card">26</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">26</span><h2 class="card-title">Card Shuffle</h2></div>
-  <div class="card-cats"><span class="cat">Stack</span><span class="cat">Creative</span></div>
-  <p class="card-desc">Send the front card sideways before returning it behind the deck.</p><p class="interaction-label">Pointer, tap, or keyboard</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="sparallax">
-  <div class="card-preview" aria-label="Scroll Parallax preview"><div class="preview-stage"><div class="motion-card">27</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">27</span><h2 class="card-title">Scroll Parallax</h2></div>
-  <div class="card-cats"><span class="cat">Scroll</span></div>
-  <p class="card-desc">Scroll progress moves separate layers at different bounded speeds.</p><p class="interaction-label">Scroll to explore</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="flipreveal">
-  <div class="card-preview" aria-label="Flip Reveal Content preview"><div class="preview-stage"><div class="motion-card">28</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">28</span><h2 class="card-title">Flip Reveal Content</h2></div>
-  <div class="card-cats"><span class="cat">3D</span><span class="cat">Interactive</span></div>
-  <p class="card-desc">Turn a two-sided card over to discover the content on its back.</p><p class="interaction-label">Pointer, tap, or keyboard</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="glow">
-  <div class="card-preview" aria-label="Glow Focus preview"><div class="preview-stage"><div class="motion-card">29</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">29</span><h2 class="card-title">Glow Focus</h2></div>
-  <div class="card-cats"><span class="cat">Hover</span><span class="cat">Focus</span></div>
-  <p class="card-desc">A soft halo highlights the selected card as it moves forward.</p><p class="interaction-label">Pointer, tap, or keyboard</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article>
-<article class="card-item" data-id="circle">
-  <div class="card-preview" aria-label="Circle Carousel preview"><div class="preview-stage"><div class="motion-card">30</div></div></div>
-  <div class="card-meta"><div class="card-head"><span class="card-num">30</span><h2 class="card-title">Circle Carousel</h2></div>
-  <div class="card-cats"><span class="cat">3D</span><span class="cat">Carousel</span></div>
-  <p class="card-desc">Cards orbit an elliptical path with depth-based scale and emphasis.</p><p class="interaction-label">Autoplay, swipe, or arrow keys</p>
-  <div class="card-actions"><button class="btn btn-primary" data-action="demo" disabled>View Demo</button><button class="btn" data-action="copy" disabled>Copy Prompt</button></div></div>
-</article></section>
-<p class="empty-state" id="empty-state" hidden>No animations match. Try another search or category.</p>
-</main><footer>MotionCards · Built to move your existing UI.</footer>
+  <header class="header">
+    <div class="header-inner">
+      <a class="brand" href="#">
+        <span class="brand-mark">M</span>
+        <span>MotionCards</span>
+      </a>
+      <label class="search-wrap">
+        <span>?</span>
+        <input id="search" class="search" type="search" placeholder="Search animation, category, behavior">
+      </label>
+      <nav class="nav" aria-label="Library sections">
+        <a href="#library">Library</a>
+        <a href="#new">31-70 New</a>
+        <a href="#prompts">Prompts</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <div>
+        <span class="pill">70 reusable card motion systems</span>
+        <h1>Browse motion, open the demo, copy the prompt, reuse it anywhere.</h1>
+        <p>A complete reference library for applying advanced Framer Motion card behavior to existing UI without redesigning the component itself.</p>
+        <div class="hero-actions">
+          <a class="primary-link" href="#library">Explore animations</a>
+          <span class="pill">React / Next.js / TypeScript / Framer Motion</span>
+        </div>
+      </div>
+      <aside class="hero-panel" aria-label="Library summary">
+        <div class="preview" aria-hidden="true">
+          <div class="mini-stage" id="heroPreview"></div>
+        </div>
+        <div class="stats">
+          <div class="stat"><strong>70</strong><span>Total animations</span></div>
+          <div class="stat"><strong>40</strong><span>New systems</span></div>
+          <div class="stat"><strong>100%</strong><span>Copy-ready prompts</span></div>
+        </div>
+      </aside>
+    </section>
+    <section class="filters" id="filters" aria-label="Animation filters"></section>
+    <section class="grid" id="library" aria-label="MotionCards animation library"></section>
+    <p class="empty" id="empty">No animation matched your search. Try a category like 3D, physics, focus, drag, or layout.</p>
+  </main>
 </div>
-<dialog id="demo-dialog" aria-labelledby="demo-title">
-<button class="modal-close" aria-label="Close demo">×</button>
-<div class="modal-body"><div class="modal-header"><h2 class="modal-title" id="demo-title"></h2><p class="modal-subtitle" id="demo-description"></p></div>
-<div class="modal-preview" id="demo-preview"></div><div class="controls" id="demo-controls"></div><p class="hint" id="demo-hint"></p>
-<div class="modal-grid"><section class="info-block"><h3>Motion breakdown</h3><p id="demo-breakdown"></p></section><section class="info-block"><h3>Recommended use cases</h3><ul id="demo-uses"></ul></section></div>
-<section class="prompt-section"><div class="prompt-head"><h3>Reusable implementation prompt</h3><button class="copy-btn" id="demo-copy">Copy Prompt</button></div><pre class="prompt-body" id="demo-prompt" tabindex="0"></pre></section>
-</div></dialog>
-<p id="notification" class="notification" role="status" hidden></p>
-</body></html>
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <article class="modal">
+    <div class="modal-head">
+      <div>
+        <h2 id="modalTitle"></h2>
+        <p class="modal-subtitle" id="modalSubtitle"></p>
+      </div>
+      <button class="close" id="closeModal" aria-label="Close demo">x</button>
+    </div>
+    <div class="modal-content">
+      <section class="demo-preview" aria-label="Interactive animation preview">
+        <div class="demo-stage" id="demoStage"></div>
+        <div class="demo-controls">
+          <button class="icon-btn" id="prevDemo" aria-label="Previous state">&lt;</button>
+          <button class="icon-btn" id="playDemo" aria-label="Replay animation">Replay</button>
+          <button class="icon-btn" id="nextDemo" aria-label="Next state">&gt;</button>
+        </div>
+      </section>
+      <section class="info-grid">
+        <div class="info"><h4>Interaction</h4><p id="modalInteraction"></p></div>
+        <div class="info"><h4>Motion Behavior</h4><p id="modalExplanation"></p></div>
+        <div class="info"><h4>Best For</h4><p id="modalUses"></p></div>
+      </section>
+      <section class="prompt-box" id="prompts">
+        <div class="prompt-title">
+          <strong>Reusable Framer Motion Prompt</strong>
+          <button class="btn btn-primary" id="copyPrompt">Copy Prompt</button>
+        </div>
+        <pre class="prompt" id="promptText"></pre>
+      </section>
+    </div>
+  </article>
+</div>
+<script>
+const coreRule = `Do not redesign, replace, or unnecessarily restructure the existing UI.
+
+Apply this motion system to the elements/components specified by the user while preserving their existing:
+
+- content
+- styling
+- dimensions
+- colors
+- typography
+- responsive behavior
+- accessibility
+- business logic
+- click actions
+- functionality.
+
+Only introduce wrappers or structural changes when technically necessary for the animation.`;
+
+const existingNames = [
+  ["3D Coverflow", "3D / Carousel"], ["Layered Stack", "Stack"], ["Fan Spread", "Stack / Fan"], ["Vertical Parallax", "Scroll / Depth"], ["Flip Cards", "3D Reveal"],
+  ["Infinite Loop", "Loop"], ["Pointer Tilt", "Pointer / 3D"], ["Expanded Center", "Focus"], ["Scroll Reveal", "Scroll"], ["Wave Cards", "Sequential"],
+  ["Cube Rotation", "3D"], ["Depth Layers", "3D"], ["Magnetic Hover", "Pointer"], ["Flip Stack", "Stack / 3D"], ["Blur Focus", "Focus"],
+  ["Fade Slide", "Transition"], ["Shuffle Deck", "Stack"], ["Circular Progress", "Progress"], ["Curved Carousel", "Path"], ["Circle Orbit", "Orbit"],
+  ["Staggered Parallax", "Scroll / Depth"], ["Elastic Hover", "Physics"], ["Swipe Stack", "Drag"], ["Perspective Grid", "3D / Layout"], ["Reveal Mask", "Reveal"],
+  ["Card Morph", "Morph"], ["Stack Rotate", "Stack / 3D"], ["Depth Swipe", "Drag / 3D"], ["Grid Pop", "Layout"], ["Liquid Hover", "Creative"]
+];
+
+const newAnimations = [
+  ["Accordion Expand", "Layout / Interactive", "Active element expands while neighboring cards compress and reposition smoothly.", "Hover on desktop or tap on mobile to activate an item.", "layout, layoutId, and spring width transitions keep the row fluid instead of snapping.", "portfolio, services, image galleries, project showcases"],
+  ["Card Peel", "Reveal / 3D", "A corner lifts like paper and reveals secondary content attached underneath.", "Hover or drag from a corner to start the peel.", "transform-origin, rotateX, rotateY, clip-path, and shadow sell the attached paper bend.", "product reveals, offers, hidden details, feature cards"],
+  ["3D Helix", "3D / Path", "Cards travel around an invisible spiral with angle, offset, and Z-depth.", "Use next/previous controls or drag to rotate the helix.", "Sine/cosine positioning, perspective, and opacity based on front depth create the helix.", "creative galleries, case studies, visual indexes"],
+  ["Spring Spread", "Stack / Spring", "A compact stack spreads outward with staggered spring overshoot and settles into a clean fan.", "Tap to spread or compress the deck.", "Individual delays and unique final positions prevent identical card movement.", "service groups, card decks, team highlights"],
+  ["Spotlight Focus", "Focus / Pointer", "A moving spotlight follows the selected item while surrounding cards dim gently.", "Move pointer or tab focus across cards.", "The spotlight is animated separately from card scale and clarity changes.", "pricing, testimonials, navigation cards"],
+  ["Depth Tunnel", "3D / Perspective", "Cards cycle from deep Z-space toward the viewer, pass the active point, then return behind.", "Use navigation controls or autoplay for tunnel travel.", "translateZ, scale, and opacity create a strong forward path without clipping.", "immersive showcases, onboarding steps, media cards"],
+  ["Arc Swap", "Layout / Path", "Cards exchange positions along upper and lower curved arcs.", "Click swap to exchange card positions.", "Y-offset, rotation, z-index, and scale define which card passes in front.", "comparison cards, before/after UI, feature swapping"],
+  ["Domino Cascade", "Sequential / Physics", "Cards tilt one after another like a restrained domino reaction and recover.", "Tap the first card or press replay.", "Small rotations, transform-origin, and spring delay create a physical chain reaction.", "process flows, ordered lists, onboarding"],
+  ["Central Orbit", "Orbit / 3D", "One feature card stays centered while supporting cards orbit around it.", "Use controls to rotate orbit positions.", "Elliptical angular coordinates and depth-based scale/opacity control prominence.", "featured products, hero components, selected projects"],
+  ["Fold / Unfold", "3D Reveal", "Connected panels open in sequence like a brochure or folding map.", "Tap to fold or unfold.", "Each panel has a different transform-origin and follows the previous panel.", "menus, product specs, onboarding explainers"],
+  ["Elastic Deck", "Stack / Physics", "Dragging stretches a compact deck, with nearby cards responding more than distant cards.", "Drag the active card horizontally.", "useMotionValue, useSpring, and distance transforms simulate connected springs.", "swipe decks, product collections, image stacks"],
+  ["Momentum Throw", "Drag / Physics", "A card can be dragged and thrown; velocity decides snap, return, or dismissal.", "Drag with mouse or swipe on touch.", "drag inertia, velocity thresholds, and snap points determine the final state.", "review decks, task queues, media review"],
+  ["S-Curve Flow", "Path Animation", "Cards move along an invisible S-shaped path with rotation and depth.", "Use next/previous or scroll to advance.", "Path progress drives x, y, rotation, scale, and center prominence.", "story cards, travel galleries, timelines"],
+  ["Portal Zoom", "Depth / Transition", "Selected card moves toward the viewer while the next card emerges from deep behind it.", "Click a card to travel through it.", "Scale, translateZ, fade, and staged entrance create a portal transition.", "detail pages, product transitions, media viewers"],
+  ["3D Gallery Wall", "Perspective / Gallery", "Cards sit on a large angled virtual wall while navigation moves the camera.", "Drag or use controls to pan across the wall.", "perspective, rotateY, translateX, and translateZ simulate an exhibition wall.", "portfolio walls, media libraries, dashboards"],
+  ["Waterfall Stack", "Stack / Cascade", "Cards cascade vertically; the front card exits downward and the stack moves forward.", "Click next to cycle the top card.", "Y offset, scale, depth, and timing create a controlled waterfall movement.", "feeds, notifications, story stacks"],
+  ["Pendulum Cards", "Physics / Swing", "Cards swing from their top edge and settle with decreasing oscillation.", "Click, hover, or drag to disturb the suspended card.", "transform-origin top center plus damped spring rotation gives a natural swing.", "profile cards, playful galleries, reveal panels"],
+  ["Conveyor Belt", "Loop / Path", "Cards move continuously around a closed belt path with no visible reset.", "Autoplay or drag along the belt.", "Front cards move horizontally, edge cards curve backward, rear cards return in depth.", "brand carousels, product strips, logo cards"],
+  ["Snap Grid", "Layout / Reorder", "Cards rearrange between grid positions without disappearing or snapping.", "Filter, sort, or reorder the grid.", "layout, layoutId, and AnimatePresence animate natural coordinate changes.", "dashboards, sortable galleries, product grids"],
+  ["Explode & Assemble", "Creative / Sequential", "A tight group rapidly spreads in controlled directions, pauses, then assembles into layout.", "Press replay to explode and reconstruct.", "x, y, rotate, scale, and stagger create energy while ending cleanly.", "launch moments, creative portfolios, reveals"],
+  ["Gravity Drop", "Physics", "Cards enter from above, impact softly, compress slightly, and settle.", "Scroll into view or press replay.", "Spring physics and staggered delays suggest gravity without cartoon bouncing.", "new items, notifications, onboarding cards"],
+  ["Floating Layers", "Ambient / Depth", "Cards float at different depths with subtle unsynchronized drift.", "Ambient animation with optional hover focus.", "Layer-specific amplitude, duration, rotation, and depth avoid synchronized motion.", "hero backgrounds, calm galleries, feature sections"],
+  ["Edge Rotate", "3D / Hinge", "A card rotates around a physical edge like a hinged door.", "Hover, click, or focus the hinged card.", "transform-origin plus rotateY/rotateX keeps one edge visually attached.", "settings panels, hidden content, product detail cards"],
+  ["Book Page Turn", "3D / Page", "Cards behave like pages turning forward or backward across a book spine.", "Use next/previous page controls.", "outer-edge transform-origin, shadow changes, and z-index transitions create page depth.", "catalogs, stories, portfolios, documentation"],
+  ["Roller Carousel", "3D / Cylinder", "Cards rotate around a horizontal cylinder with depth-based scale.", "Use controls or wheel gestures.", "Vertical circular positioning and translateZ keep the active card on the front curve.", "media browsing, feature pickers, mobile sections"],
+  ["Ferris Wheel", "Circular / Vertical", "Cards move around a vertical wheel while card content stays upright.", "Rotate the wheel using next/previous.", "x/y circular coordinates move positions while inner rotation preserves readability.", "team profiles, service menus, event cards"],
+  ["Diagonal Cascade", "Sequential", "Cards enter from a diagonal path with staggered continuity.", "Scroll into view or press replay.", "x/y offsets, opacity, scale, and stagger create directional group entry.", "section reveals, galleries, card lists"],
+  ["Cross-Swap", "Path / Reorder", "Two cards exchange positions through the center while one moves forward and one back.", "Tap swap to exchange selected cards.", "translateX, translateZ, scale, rotation, and z-index avoid visual collision.", "comparison widgets, before/after cards"],
+  ["Spring Compression", "Physics / Group Interaction", "Selecting a card pushes neighbors away with distance-based falloff.", "Hover, focus, or tap a card in a row.", "Closest cards receive strongest displacement and the compression wave springs outward.", "nav cards, product rows, testimonial strips"],
+  ["Focus Ripple", "Sequential / Focus", "Selecting one card sends a scale and depth ripple from center to outer cards.", "Tap a card to start ripple focus.", "Delay is based on distance from selected item: center, near, then far.", "interactive menus, decks, gallery emphasis"],
+  ["Mouse Repulsion", "Pointer / Physics", "Cards move away from the pointer based on distance to each card center.", "Move the pointer across the card field.", "Distance vectors are clamped and smoothed through springs, returning on pointer leave.", "playful grids, landing pages, creative tools"],
+  ["Gravity Attraction", "Pointer / Magnetic", "Cards are gently attracted toward the pointer with restrained distance falloff.", "Move pointer near cards.", "Only nearby cards respond; spring smoothing prevents every card chasing the cursor.", "interactive galleries, product tiles, hero demos"],
+  ["Drag Reorder", "Drag / Layout", "Users drag cards through a collection and neighboring cards reposition automatically.", "Drag a card across another and release.", "layout animation keeps the collection smooth while the dragged card lifts above others.", "kanban cards, galleries, priority lists"],
+  ["Velocity Tilt", "Motion Reactive", "Card rotation responds to movement velocity and returns to zero when motion stops.", "Drag, scroll, or move carousel quickly.", "useVelocity, useTransform, and useSpring map speed to clamped rotation.", "swipe views, carousels, kinetic dashboards"],
+  ["Stack Burst", "Stack / Fan", "A compact stack bursts outward radially into a deliberate fan composition.", "Tap to burst or compress.", "Each card gets unique x, y, rotation, and a spring settle after the burst.", "hero card stacks, feature reveals, image sets"],
+  ["Cylinder Wrap", "3D / Geometry", "Cards wrap around an invisible vertical cylinder and rotate with navigation.", "Drag or press controls to rotate.", "Angular position drives x, z, rotateY, scale, and front-card prominence.", "product browsers, interactive showcases"],
+  ["Sphere Orbit", "3D / Spatial", "Cards distribute around a virtual sphere and rotate interactively.", "Drag the sphere or use controls.", "Spherical coordinates drive x, y, z with opacity and scale based on facing depth.", "skill clouds, image universes, creative indexes"],
+  ["Perspective Corridor", "3D / Immersive", "Cards line the left and right walls of a corridor while the camera moves forward.", "Scroll or use next to move through the corridor.", "translateZ, translateX, and inward rotateY create strong readable depth.", "immersive portfolios, timelines, product walkthroughs"],
+  ["Reflection Flow", "Visual / Carousel", "Cards move through a carousel with synchronized reflections underneath.", "Drag or navigate the carousel.", "Reflection elements mirror card transforms with opacity, blur, and vertical compression.", "premium product sliders, media galleries"],
+  ["Kinetic Masonry", "Layout / Motion", "Cards reorganize into a masonry-like layout with height-aware movement and soft focus.", "Change category, sort order, or selected card.", "layout animation, AnimatePresence, and staggered depth shifts keep masonry changes readable.", "blog cards, portfolio grids, resource libraries"]
+];
+
+const existingDetails = [
+  "Use CSS 3D transforms and Framer Motion variants to keep the existing card content intact.",
+  "Provide live preview, full demo, prompt copy, keyboard focus, and reduced-motion handling.",
+  "Support cards, images, products, testimonials, services, pricing blocks, posts, videos, and custom components."
+];
+const animations = [
+  ...existingNames.map((item, i) => ({
+    id: i + 1, name: item[0], category: item[1],
+    description: `Existing MotionCards system ${String(i + 1).padStart(2, "0")} preserved from the original 01-30 library.`,
+    interaction: "Open the demo, replay the motion, then copy the reusable prompt.",
+    explanation: existingDetails[i % existingDetails.length],
+    useCases: "cards, images, products, testimonials, services, portfolio items",
+    isNew: false
+  })),
+  ...newAnimations.map((item, i) => ({
+    id: i + 31, name: item[0], category: item[1], description: item[2],
+    interaction: item[3], explanation: item[4], useCases: item[5], isNew: true
+  }))
+];
+const colors = [["#7c3aed","#1d4ed8"],["#0891b2","#4c1d95"],["#be185d","#7c2d12"],["#0f766e","#312e81"],["#9333ea","#0f172a"],["#ea580c","#831843"],["#2563eb","#0f766e"],["#db2777","#4338ca"],["#65a30d","#155e75"],["#dc2626","#581c87"]];
+const motionClasses = ["motion-a","motion-b","motion-c","motion-d","motion-e","motion-f","motion-g","motion-h","motion-i","motion-j"];
+const positions = [
+  {x:"-108px", y:"-16px", z:"-110px", r:"-38deg", rx:"10deg", s:.72, o:.46},
+  {x:"-54px", y:"6px", z:"-42px", r:"-18deg", rx:"-7deg", s:.88, o:.78},
+  {x:"0px", y:"0px", z:"70px", r:"0deg", rx:"0deg", s:1.08, o:1},
+  {x:"54px", y:"6px", z:"-42px", r:"18deg", rx:"8deg", s:.88, o:.78},
+  {x:"108px", y:"-16px", z:"-110px", r:"38deg", rx:"-10deg", s:.72, o:.46}
+];
+const library = document.getElementById("library");
+const filters = document.getElementById("filters");
+const search = document.getElementById("search");
+const empty = document.getElementById("empty");
+const modalOverlay = document.getElementById("modalOverlay");
+const demoStage = document.getElementById("demoStage");
+const categories = ["All", "New 31-70", "3D", "Physics", "Layout", "Drag", "Focus", "Path", "Stack", "Pointer", "Reveal"];
+let activeFilter = "All";
+let activeAnimation = animations[30];
+let demoOffset = 0;
+
+function promptFor(animation) {
+  return `Create a reusable ${animation.name} card motion system for React / Next.js with TypeScript and Framer Motion / Motion for React.
+
+${coreRule}
+
+The motion system must work with cards, images, products, portfolio items, testimonials, services, team members, pricing blocks, blog posts, screenshots, gallery items, videos, feature blocks, and custom React components.
+
+Motion category: ${animation.category}
+
+Behavior:
+${animation.description}
+
+Interaction:
+${animation.interaction}
+
+Motion implementation guidance:
+${animation.explanation}
+
+Use Framer Motion APIs only where useful. Prefer motion.div, variants, spring transitions, AnimatePresence, layout/layoutId, drag, useMotionValue, useSpring, useTransform, useVelocity, useScroll, or whileHover/whileTap/whileInView based on the actual behavior. Use CSS 3D transforms and transform-style: preserve-3d when depth is required.
+
+Requirements:
+- Keep animation GPU-friendly using transform and opacity.
+- Add keyboard/focus support for interactive states.
+- Respect prefers-reduced-motion.
+- Keep responsive behavior intact across mobile and desktop.
+- Provide clean component props for items, active index, callbacks, and optional autoplay.
+- Do not hardcode business data inside the motion component.
+
+Recommended use cases:
+${animation.useCases}.`;
+}
+function cardPreview(animation, size = "mini") {
+  const stage = document.createElement("div");
+  stage.className = `${size}-stage`;
+  const cls = motionClasses[(animation.id - 1) % motionClasses.length];
+  const spread = animation.id >= 31 ? 1 + ((animation.id % 7) * .05) : 1;
+  for (let i = 0; i < 5; i++) {
+    const pos = positions[i];
+    const card = document.createElement("div");
+    const palette = colors[(animation.id + i) % colors.length];
+    card.className = `${size}-card ${cls}`;
+    card.textContent = String(i + 1);
+    card.style.setProperty("--c1", palette[0]);
+    card.style.setProperty("--c2", palette[1]);
+    const x = parseFloat(pos.x) * spread;
+    const y = parseFloat(pos.y);
+    const r = parseFloat(pos.r);
+    const rx = parseFloat(pos.rx);
+    card.style.setProperty("--x", `${x}px`);
+    card.style.setProperty("--y", pos.y);
+    card.style.setProperty("--z", pos.z);
+    card.style.setProperty("--r", pos.r);
+    card.style.setProperty("--rx", pos.rx);
+    card.style.setProperty("--x2", `${x * -1}px`);
+    card.style.setProperty("--r2", `${r * -1}deg`);
+    card.style.setProperty("--rx2", `${rx * -1}deg`);
+    card.style.setProperty("--xSmall", `${x * .25}px`);
+    card.style.setProperty("--ySmall", `${y * .35}px`);
+    card.style.setProperty("--xTiny", `${x * .2}px`);
+    card.style.setProperty("--yTiny", `${y * .2}px`);
+    card.style.setProperty("--xBurst", `${x * 1.35}px`);
+    card.style.setProperty("--yBurst", `${y * 1.4}px`);
+    card.style.setProperty("--xWide", `${x * 1.7}px`);
+    card.style.setProperty("--yWide", `${y * 1.7}px`);
+    card.style.setProperty("--s", pos.s);
+    card.style.setProperty("--o", pos.o);
+    card.style.animationDelay = `${i * -0.28}s`;
+    stage.append(card);
+  }
+  return stage;
+}
+function renderFilters() {
+  filters.innerHTML = categories.map(cat => `<button class="filter-btn ${cat === activeFilter ? "active" : ""}" data-filter="${cat}">${cat}</button>`).join("");
+}
+function matchesFilter(animation) {
+  if (activeFilter === "All") return true;
+  if (activeFilter === "New 31-70") return animation.isNew;
+  return animation.category.toLowerCase().includes(activeFilter.toLowerCase());
+}
+function renderLibrary() {
+  const term = search.value.trim().toLowerCase();
+  const items = animations.filter(animation => {
+    const haystack = `${animation.name} ${animation.category} ${animation.description} ${animation.useCases}`.toLowerCase();
+    return matchesFilter(animation) && (!term || haystack.includes(term));
+  });
+  library.innerHTML = "";
+  for (const animation of items) {
+    const article = document.createElement("article");
+    article.className = "card";
+    if (animation.id === 31) article.id = "new";
+    article.innerHTML = `
+      <div class="preview"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="num">${String(animation.id).padStart(2, "0")}</span>
+          <span class="category">${animation.category}</span>
+        </div>
+        <h3>${animation.name}</h3>
+        <p class="desc">${animation.description}</p>
+        <ul class="meta-list">
+          <li>${animation.interaction}</li>
+          <li>${animation.useCases}</li>
+        </ul>
+        <div class="actions">
+          <button class="btn btn-primary" data-open="${animation.id}">Open Demo</button>
+          <button class="btn" data-copy="${animation.id}">Copy Prompt</button>
+        </div>
+      </div>`;
+    article.querySelector(".preview").append(cardPreview(animation));
+    library.append(article);
+  }
+  empty.style.display = items.length ? "none" : "block";
+}
+function openAnimation(id) {
+  activeAnimation = animations.find(item => item.id === id) || animations[0];
+  demoOffset = 0;
+  document.getElementById("modalTitle").textContent = `${String(activeAnimation.id).padStart(2, "0")} - ${activeAnimation.name}`;
+  document.getElementById("modalSubtitle").textContent = `${activeAnimation.category} - ${activeAnimation.description}`;
+  document.getElementById("modalInteraction").textContent = activeAnimation.interaction;
+  document.getElementById("modalExplanation").textContent = activeAnimation.explanation;
+  document.getElementById("modalUses").textContent = activeAnimation.useCases;
+  document.getElementById("promptText").textContent = promptFor(activeAnimation);
+  renderDemo();
+  modalOverlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function renderDemo() {
+  demoStage.innerHTML = "";
+  demoStage.append(cardPreview({...activeAnimation, id: activeAnimation.id + demoOffset}, "demo"));
+}
+function closeModal() {
+  modalOverlay.classList.remove("open");
+  document.body.style.overflow = "";
+}
+async function copyText(text, button) {
+  try {
+    await navigator.clipboard.writeText(text);
+    const old = button.textContent;
+    button.textContent = "Copied";
+    setTimeout(() => button.textContent = old, 1200);
+  } catch {
+    const range = document.createRange();
+    range.selectNodeContents(document.getElementById("promptText"));
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+}
+filters.addEventListener("click", event => {
+  const button = event.target.closest("[data-filter]");
+  if (!button) return;
+  activeFilter = button.dataset.filter;
+  renderFilters();
+  renderLibrary();
+});
+library.addEventListener("click", event => {
+  const openButton = event.target.closest("[data-open]");
+  const copyButton = event.target.closest("[data-copy]");
+  if (openButton) openAnimation(Number(openButton.dataset.open));
+  if (copyButton) {
+    const animation = animations.find(item => item.id === Number(copyButton.dataset.copy));
+    copyText(promptFor(animation), copyButton);
+  }
+});
+search.addEventListener("input", renderLibrary);
+document.getElementById("closeModal").addEventListener("click", closeModal);
+document.getElementById("copyPrompt").addEventListener("click", event => copyText(document.getElementById("promptText").textContent, event.currentTarget));
+document.getElementById("prevDemo").addEventListener("click", () => { demoOffset -= 1; renderDemo(); });
+document.getElementById("nextDemo").addEventListener("click", () => { demoOffset += 1; renderDemo(); });
+document.getElementById("playDemo").addEventListener("click", renderDemo);
+modalOverlay.addEventListener("click", event => {
+  if (event.target === modalOverlay) closeModal();
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeModal();
+});
+document.getElementById("heroPreview").replaceWith(cardPreview(animations[32]));
+renderFilters();
+renderLibrary();
+</script>
+</body>
+</html>
