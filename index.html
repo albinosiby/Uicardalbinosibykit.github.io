@@ -415,6 +415,238 @@ button { -webkit-tap-highlight-color: transparent; }
   28% { transform: translate3d(var(--xWide), var(--yWide), var(--z)) rotate(calc(var(--r) + 34deg)) scale(calc(var(--s) + .08)); }
   68% { transform: translate3d(var(--xSmall), var(--ySmall), calc(var(--z) + 120px)) rotate(0deg) scale(1.02); }
 }
+.visual-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+.visual-stage::before {
+  content: attr(data-pattern);
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  z-index: 4;
+  max-width: calc(100% - 32px);
+  color: rgba(255,255,255,.58);
+  font: 10px/1 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.demo-stage.visual-stage::before { font-size: 12px; }
+.v-card, .v-panel, .v-chip, .v-slot, .v-page {
+  position: absolute;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.2), transparent 42%),
+    linear-gradient(135deg, var(--c1), var(--c2));
+  box-shadow: 0 16px 44px rgba(0,0,0,.34);
+}
+.v-card {
+  left: 50%;
+  top: 50%;
+  width: var(--w, 74px);
+  height: var(--h, 98px);
+  display: grid;
+  place-items: center;
+  color: rgba(255,255,255,.86);
+  font-weight: 850;
+  transform: translate(-50%, -50%);
+  animation: var(--move, sceneFloat) var(--duration, 4.8s) var(--spring) infinite;
+  animation-delay: var(--delay, 0s);
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+}
+.v-line, .v-path, .v-ring, .v-cursor, .v-beam {
+  position: absolute;
+  pointer-events: none;
+}
+.v-line {
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(34,211,238,.7), transparent);
+}
+.v-path {
+  border: 1px dashed rgba(255,255,255,.26);
+  border-radius: 999px;
+}
+.v-ring {
+  left: 50%;
+  top: 50%;
+  border: 1px solid rgba(34,211,238,.52);
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  animation: ringPulse 2.1s ease-out infinite;
+}
+.v-cursor {
+  width: 16px;
+  height: 16px;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 30px rgba(34,211,238,.8);
+  animation: cursorMove 3.2s ease-in-out infinite;
+}
+.v-beam {
+  inset: 34px 22%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255,255,255,.24), transparent 68%);
+  animation: spotlightSweep 3.8s ease-in-out infinite;
+}
+.visual-accordion .v-card { height: 118px; border-radius: 20px; animation-name: accordionPulse; }
+.visual-peel .v-card.main {
+  clip-path: polygon(0 0, 82% 0, 100% 18%, 100% 100%, 0 100%);
+  transform-origin: 100% 0;
+  animation-name: peelCard;
+}
+.visual-peel .v-card.main::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 34px;
+  height: 34px;
+  background: rgba(255,255,255,.34);
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+.visual-grid .v-slot {
+  width: 58px;
+  height: 72px;
+  background: rgba(255,255,255,.045);
+  border-style: dashed;
+}
+.visual-grid .v-card { width: 58px; height: 72px; animation-name: gridSnap; }
+.visual-fold .v-panel { top: 50%; width: 58px; height: 112px; transform-origin: left center; animation: foldPanel 4.2s ease-in-out infinite; }
+.visual-corridor .v-card { animation-name: corridorMove; }
+.visual-reflection .v-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 12px);
+  height: 66%;
+  border-radius: inherit;
+  background: inherit;
+  opacity: .25;
+  filter: blur(3px);
+  transform: scaleY(-.55);
+}
+.visual-tap .v-card.main { animation-name: tapPulse; outline: 3px solid rgba(34,211,238,.34); }
+.visual-scroll .v-card { animation-name: scrollRise; }
+.visual-helix .v-card { animation-name: helixSpin; }
+.visual-domino .v-card { transform-origin: bottom center; animation-name: dominoFall; }
+.visual-arc .v-card { animation-name: arcSwap; }
+.visual-conveyor .v-card { animation-name: beltLoop; }
+.visual-page .v-page { width: 72px; height: 106px; top: 50%; transform-origin: left center; animation: pageTurn 4.6s ease-in-out infinite; }
+.visual-cylinder .v-card { animation-name: cylinderSpin; }
+.visual-sphere .v-card { border-radius: 50%; animation-name: sphereDrift; }
+.visual-split .v-panel { width: 54px; height: 104px; top: 50%; animation: splitOpen 3.8s ease-in-out infinite; }
+.visual-radial .v-chip {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: white;
+  animation: radialPop 3.4s var(--spring) infinite;
+}
+.visual-action .v-chip {
+  width: 64px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  color: white;
+  animation: actionReveal 3.6s ease-in-out infinite;
+}
+.visual-lens .v-ring { border-radius: 18px; animation-name: lensScan; }
+@keyframes sceneFloat {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) rotateX(var(--rx)) rotateY(var(--ry, 0deg)) rotate(var(--r)) scale(var(--s)); opacity: var(--o); }
+  50% { transform: translate3d(var(--x2), var(--y2), calc(var(--z) + 60px)) rotateX(var(--rx2)) rotateY(var(--ry2, 0deg)) rotate(var(--r2)) scale(calc(var(--s) + .06)); opacity: 1; }
+}
+@keyframes accordionPulse {
+  0%, 100% { transform: translate3d(var(--x), -50%, 0) scaleX(.72); opacity: var(--o); }
+  50% { transform: translate3d(var(--x), -50%, 0) scaleX(1.28); opacity: 1; }
+}
+@keyframes peelCard {
+  0%, 100% { transform: translate3d(-50%, -50%, 80px) rotateX(0deg) rotateY(0deg); }
+  50% { transform: translate3d(-50%, -54%, 90px) rotateX(18deg) rotateY(-22deg); }
+}
+@keyframes gridSnap {
+  0%, 100% { transform: translate3d(var(--x), var(--y), 0) rotate(0deg); }
+  50% { transform: translate3d(var(--x2), var(--y2), 80px) rotate(8deg); }
+}
+@keyframes foldPanel {
+  0%, 100% { transform: translate(var(--x), -50%) rotateY(var(--ry)); opacity: .72; }
+  50% { transform: translate(var(--x2), -50%) rotateY(0deg); opacity: 1; }
+}
+@keyframes corridorMove {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) rotateY(var(--ry)) scale(var(--s)); opacity: var(--o); }
+  50% { transform: translate3d(var(--xNarrow), var(--y2), calc(var(--z) + 170px)) rotateY(var(--ry)) scale(calc(var(--s) + .14)); opacity: 1; }
+}
+@keyframes tapPulse {
+  0%, 100% { transform: translate3d(-50%, -50%, 70px) scale(1); }
+  38% { transform: translate3d(-50%, -50%, 70px) scale(.88); }
+  62% { transform: translate3d(-50%, -50%, 90px) scale(1.18); }
+}
+@keyframes scrollRise {
+  0% { transform: translate3d(var(--x), 92px, var(--z)) scale(.72); opacity: .25; }
+  45% { transform: translate3d(var(--x), var(--y), 80px) scale(1.04); opacity: 1; }
+  100% { transform: translate3d(var(--x), -92px, var(--z)) scale(.72); opacity: .25; }
+}
+@keyframes helixSpin {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) rotateY(var(--ry)) scale(var(--s)); opacity: var(--o); }
+  50% { transform: translate3d(var(--x2), var(--yMirror), calc(var(--z) + 110px)) rotateY(var(--ry2)) scale(calc(var(--s) + .1)); opacity: 1; }
+}
+@keyframes dominoFall {
+  0%, 100% { transform: translate3d(var(--x), var(--y), 0) rotate(0deg); }
+  35% { transform: translate3d(var(--x), var(--y), 0) rotate(var(--r)); }
+  68% { transform: translate3d(var(--x), var(--y), 0) rotate(-4deg); }
+}
+@keyframes arcSwap {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) rotate(var(--r)) scale(var(--s)); }
+  50% { transform: translate3d(var(--x2), var(--arc), 90px) rotate(var(--r2)) scale(1.05); }
+}
+@keyframes beltLoop {
+  0% { transform: translate3d(-150px, var(--y), -80px) scale(.72); opacity: .45; }
+  45% { transform: translate3d(0, var(--y), 60px) scale(1.05); opacity: 1; }
+  100% { transform: translate3d(150px, var(--y), -80px) scale(.72); opacity: .45; }
+}
+@keyframes pageTurn {
+  0%, 100% { transform: translate(var(--x), -50%) rotateY(0deg); }
+  52% { transform: translate(var(--x2), -50%) rotateY(-150deg); }
+}
+@keyframes cylinderSpin {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) rotateX(var(--rx)) scale(var(--s)); opacity: var(--o); }
+  50% { transform: translate3d(var(--x), var(--y2), calc(var(--z) + 130px)) rotateX(var(--rx2)) scale(calc(var(--s) + .08)); opacity: 1; }
+}
+@keyframes sphereDrift {
+  0%, 100% { transform: translate3d(var(--x), var(--y), var(--z)) scale(var(--s)); opacity: var(--o); }
+  50% { transform: translate3d(var(--x2), var(--y2), calc(var(--z) + 80px)) scale(calc(var(--s) + .1)); opacity: 1; }
+}
+@keyframes splitOpen {
+  0%, 100% { transform: translate(var(--x), -50%); }
+  50% { transform: translate(var(--x2), -50%); }
+}
+@keyframes radialPop {
+  0%, 100% { transform: translate(var(--x), var(--y)) scale(.2); opacity: 0; }
+  45%, 72% { transform: translate(var(--x2), var(--y2)) scale(1); opacity: 1; }
+}
+@keyframes actionReveal {
+  0%, 100% { transform: translate(var(--x), var(--y)) scaleX(.2); opacity: 0; }
+  50% { transform: translate(var(--x2), var(--y)) scaleX(1); opacity: 1; }
+}
+@keyframes lensScan {
+  0%, 100% { transform: translate(-90px, -52px); opacity: .4; }
+  50% { transform: translate(28px, -10px); opacity: 1; }
+}
+@keyframes ringPulse {
+  0% { width: 48px; height: 48px; opacity: .8; }
+  100% { width: 180px; height: 180px; opacity: 0; }
+}
+@keyframes cursorMove {
+  0%, 100% { transform: translate(72px, 42px); }
+  50% { transform: translate(138px, 92px); }
+}
 .card-body {
   flex: 1;
   display: flex;
@@ -843,6 +1075,51 @@ const positions = [
   {x:"54px", y:"6px", z:"-42px", r:"18deg", rx:"8deg", s:.88, o:.78},
   {x:"108px", y:"-16px", z:"-110px", r:"38deg", rx:"-10deg", s:.72, o:.46}
 ];
+const patternOverrides = {
+  "Tap Flip Detail": "page",
+  "Tap Lift Sheet": "accordion",
+  "Tap Radial Menu": "radial",
+  "Tap Split Reveal": "split",
+  "Tap Ripple Ring": "tap",
+  "Tap Stack Select": "stack",
+  "Double Tap Favorite": "radial",
+  "Long Press Expand": "accordion",
+  "Scroll Stack Unpack": "scroll",
+  "Scroll Depth Ladder": "tunnel",
+  "Scroll Horizontal Rail": "conveyor",
+  "Scroll Sticky Deck": "stack",
+  "Scroll Parallax Tiles": "vertical",
+  "Scroll Rotate Reveal": "page",
+  "Scroll Curtain Cards": "split",
+  "Scroll Timeline Cards": "vertical",
+  "Hover Magnetic Border": "lens",
+  "Hover Content Float": "tunnel",
+  "Hover Image Sweep": "split",
+  "Hover Compare Slider": "split",
+  "Hover Elastic Corner": "peel",
+  "Drag Tilt Deck": "stack",
+  "Drag Snap Slots": "grid",
+  "Drag Rubber Band": "action",
+  "Drag Reveal Actions": "action",
+  "Drag Throw Stack": "action",
+  "Focus Keyboard Ring": "lens",
+  "Focus Expand Row": "accordion",
+  "Focus Dim Surround": "spotlight",
+  "Focus Dock Cards": "accordion",
+  "Focus Inspect Lens": "lens",
+  "Load Stagger Grid": "grid",
+  "Load Spiral Entry": "helix",
+  "Load Curtain Drop": "split",
+  "Load Depth Pop": "tunnel",
+  "Load Wave Sweep": "scroll",
+  "Book Page Turn": "page",
+  "Roller Carousel": "cylinder",
+  "Ferris Wheel": "orbit",
+  "Sphere Orbit": "sphere",
+  "Reflection Flow": "reflection",
+  "Kinetic Masonry": "grid"
+};
+
 const patternConfigs = {
   coverflow: {label:"3D Coverflow", motion:"motion-a", points: positions},
   stack: {label:"Layer Stack", motion:"motion-e", points:[
@@ -919,13 +1196,26 @@ const patternConfigs = {
 };
 
 function patternFor(animation) {
+  if (patternOverrides[animation.name]) return patternOverrides[animation.name];
   const text = `${animation.name} ${animation.category}`.toLowerCase();
+  if (text.includes("helix")) return "helix";
+  if (text.includes("spotlight") || text.includes("dim surround")) return "spotlight";
+  if (text.includes("domino")) return "domino";
+  if (text.includes("arc") || text.includes("cross-swap") || text.includes("s-curve")) return "arc";
+  if (text.includes("conveyor")) return "conveyor";
+  if (text.includes("book") || text.includes("page turn")) return "page";
+  if (text.includes("cylinder") || text.includes("roller")) return "cylinder";
+  if (text.includes("sphere")) return "sphere";
+  if (text.includes("split") || text.includes("curtain") || text.includes("compare")) return "split";
+  if (text.includes("radial") || text.includes("menu") || text.includes("favorite")) return "radial";
+  if (text.includes("reveal actions") || text.includes("rubber band") || text.includes("throw")) return "action";
+  if (text.includes("lens") || text.includes("inspect") || text.includes("magnetic border")) return "lens";
   if (text.includes("peel")) return "peel";
-  if (text.includes("fold") || text.includes("book") || text.includes("page")) return "fold";
+  if (text.includes("fold")) return "fold";
   if (text.includes("corridor") || text.includes("gallery wall")) return "corridor";
   if (text.includes("reflection")) return "reflection";
   if (text.includes("grid") || text.includes("masonry") || text.includes("reorder") || text.includes("slots")) return "grid";
-  if (text.includes("orbit") || text.includes("wheel") || text.includes("sphere")) return "orbit";
+  if (text.includes("orbit") || text.includes("wheel")) return "orbit";
   if (text.includes("tunnel") || text.includes("portal") || text.includes("depth")) return "tunnel";
   if (text.includes("fan") || text.includes("burst") || text.includes("spread")) return "fan";
   if (text.includes("stack") || text.includes("deck")) return "stack";
@@ -978,49 +1268,137 @@ Requirements:
 Recommended use cases:
 ${animation.useCases}.`;
 }
-function cardPreview(animation, size = "mini") {
-  const stage = document.createElement("div");
-  const pattern = patternFor(animation);
-  const config = patternConfigs[pattern] || patternConfigs.coverflow;
-  stage.className = `${size}-stage pattern-${pattern}`;
-  stage.dataset.pattern = config.label;
-  const cls = config.motion || motionClasses[(animation.id - 1) % motionClasses.length];
-  const spread = animation.id >= 31 ? 1 + ((animation.id % 7) * .035) : 1;
-  for (let i = 0; i < config.points.length; i++) {
-    const pos = config.points[i];
-    const card = document.createElement("div");
-    const palette = colors[(animation.id + i) % colors.length];
-    card.className = `${size}-card ${cls}`;
-    card.textContent = String(i + 1);
-    card.style.setProperty("--c1", palette[0]);
-    card.style.setProperty("--c2", palette[1]);
-    const x = parseFloat(pos.x) * spread;
-    const y = parseFloat(pos.y);
-    const r = parseFloat(pos.r);
-    const rx = parseFloat(pos.rx);
-    const w = pos.w || 76;
-    card.style.setProperty("--x", `${x}px`);
-    card.style.setProperty("--y", pos.y);
-    card.style.setProperty("--z", pos.z);
-    card.style.setProperty("--r", pos.r);
-    card.style.setProperty("--rx", pos.rx);
-    card.style.setProperty("--w", `${w}px`);
-    card.style.setProperty("--x2", `${x * -1}px`);
-    card.style.setProperty("--r2", `${r * -1}deg`);
-    card.style.setProperty("--rx2", `${rx * -1}deg`);
-    card.style.setProperty("--xSmall", `${x * .25}px`);
-    card.style.setProperty("--ySmall", `${y * .35}px`);
-    card.style.setProperty("--xTiny", `${x * .2}px`);
-    card.style.setProperty("--yTiny", `${y * .2}px`);
-    card.style.setProperty("--xBurst", `${x * 1.35}px`);
-    card.style.setProperty("--yBurst", `${y * 1.4}px`);
-    card.style.setProperty("--xWide", `${x * 1.7}px`);
-    card.style.setProperty("--yWide", `${y * 1.7}px`);
-    card.style.setProperty("--s", pos.s);
-    card.style.setProperty("--o", pos.o);
-    card.style.animationDelay = `${(i * -0.28) - ((animation.id % 5) * .08)}s`;
-    stage.append(card);
+function styleVars(vars) {
+  return Object.entries(vars).map(([key, value]) => `--${key}:${value}`).join(";");
+}
+
+function paletteVars(seed, index) {
+  const palette = colors[(seed + index) % colors.length];
+  return `--c1:${palette[0]};--c2:${palette[1]};`;
+}
+
+function cardHtml(seed, index, vars = {}, cls = "") {
+  return `<div class="v-card ${cls}" style="${paletteVars(seed, index)}${styleVars(vars)}">${index + 1}</div>`;
+}
+
+function sceneCards(animation, points, move = "sceneFloat") {
+  return points.map((point, i) => {
+    const x = point.x || 0;
+    const y = point.y || 0;
+    const z = point.z || 0;
+    const r = point.r || 0;
+    const rx = point.rx || 0;
+    const ry = point.ry || 0;
+    return cardHtml(animation.id, i, {
+      x: `${x}px`,
+      y: `${y}px`,
+      z: `${z}px`,
+      r: `${r}deg`,
+      rx: `${rx}deg`,
+      ry: `${ry}deg`,
+      x2: `${point.x2 ?? -x}px`,
+      y2: `${point.y2 ?? -y}px`,
+      xNarrow: `${x * .72}px`,
+      yMirror: `${-y}px`,
+      r2: `${-r}deg`,
+      rx2: `${-rx}deg`,
+      ry2: `${-ry}deg`,
+      s: point.s ?? 1,
+      o: point.o ?? 1,
+      w: `${point.w || 74}px`,
+      h: `${point.h || 98}px`,
+      arc: `${point.arc ?? -68}px`,
+      move,
+      delay: `${i * -.18}s`,
+      duration: `${point.duration || 4.8}s`
+    });
+  }).join("");
+}
+
+function visualMarkup(animation, pattern) {
+  const id = animation.id;
+  if (pattern === "accordion") {
+    return sceneCards(animation, [
+      {x:-104, y:-50, w:42, h:112, o:.55}, {x:-48, y:-50, w:64, h:112, o:.75},
+      {x:20, y:-50, w:112, h:112, o:1}, {x:96, y:-50, w:50, h:112, o:.65}
+    ], "accordionPulse");
   }
+  if (pattern === "peel") {
+    return `<div class="v-card" style="${paletteVars(id, 0)}--x:-78px;--y:18px;--z:-40px;--s:.82;--o:.5;--r:-8deg;--rx:0deg;--ry:0deg;--move:sceneFloat">back</div>${cardHtml(id, 1, {w:"98px", h:"124px", move:"peelCard"}, "main")}`;
+  }
+  if (pattern === "helix") {
+    return sceneCards(animation, [
+      {x:-96,y:-68,z:-100,ry:-62,s:.62,o:.45},{x:72,y:-34,z:-10,ry:42,s:.82,o:.7},
+      {x:0,y:0,z:95,ry:0,s:1.08,o:1},{x:-72,y:34,z:-10,ry:-42,s:.82,o:.7},
+      {x:96,y:68,z:-100,ry:62,s:.62,o:.45}
+    ], "helixSpin");
+  }
+  if (pattern === "spotlight") {
+    return `<div class="v-beam"></div>${sceneCards(animation, [{x:-86,y:0,z:0,s:.76,o:.45},{x:0,y:0,z:70,s:1.08,o:1},{x:86,y:0,z:0,s:.76,o:.45}], "sceneFloat")}`;
+  }
+  if (pattern === "tunnel") {
+    return `<span class="v-path" style="inset:42px 34%;"></span><span class="v-path" style="inset:68px 40%;"></span>${sceneCards(animation, [{x:0,y:0,z:-320,s:.42,o:.25,w:56,h:74},{x:0,y:0,z:-190,s:.58,o:.42,w:62,h:82},{x:0,y:0,z:-70,s:.78,o:.65,w:68,h:90},{x:0,y:0,z:70,s:1.05,o:1,w:78,h:104},{x:0,y:0,z:180,s:1.22,o:.5,w:90,h:118}], "sceneFloat")}`;
+  }
+  if (pattern === "arc") {
+    return `<span class="v-path" style="left:22%;top:28%;width:56%;height:46%;"></span>${sceneCards(animation, [{x:-76,y:24,z:0,r:-8,s:1,arc:-74},{x:76,y:24,z:0,r:8,s:1,arc:-18}], "arcSwap")}`;
+  }
+  if (pattern === "domino") {
+    return sceneCards(animation, [-110,-55,0,55,110].map((x, i) => ({x,y:28,z:0,r: i < 3 ? 18 + i * 8 : -10,s:.82,o:1,w:54,h:86,duration:3.6})), "dominoFall");
+  }
+  if (pattern === "orbit") {
+    return `<span class="v-path" style="left:18%;top:24%;width:64%;height:52%;"></span>${sceneCards(animation, [{x:0,y:0,z:80,s:1.08,o:1,w:86,h:110},{x:0,y:-82,z:-70,s:.62,o:.45,w:54,h:72},{x:104,y:0,z:0,s:.76,o:.72,w:58,h:76},{x:0,y:82,z:-70,s:.62,o:.45,w:54,h:72},{x:-104,y:0,z:0,s:.76,o:.72,w:58,h:76}], "sceneFloat")}`;
+  }
+  if (pattern === "fold") {
+    return [0,1,2].map((_, i) => `<div class="v-panel" style="${paletteVars(id, i)}--x:${-82 + i * 56}px;--x2:${-66 + i * 56}px;--ry:${i === 0 ? -62 : i === 1 ? 0 : 62}deg;animation-delay:${i * .12}s"></div>`).join("");
+  }
+  if (pattern === "page") {
+    return `<div class="v-page" style="${paletteVars(id, 0)}left:38%;--x:-50%;--x2:24px"></div><div class="v-page" style="${paletteVars(id, 1)}left:50%;--x:0;--x2:-12px;animation-delay:.3s"></div>`;
+  }
+  if (pattern === "corridor") {
+    return `<span class="v-line" style="left:18%;right:18%;top:50%;transform:rotate(90deg);"></span>${sceneCards(animation, [{x:-118,y:-54,z:-220,ry:58,s:.52,o:.42,w:62,h:82},{x:118,y:-26,z:-120,ry:-58,s:.68,o:.62,w:66,h:88},{x:-106,y:20,z:10,ry:50,s:.88,o:.86,w:70,h:94},{x:96,y:54,z:90,ry:-46,s:1.02,o:1,w:74,h:100}], "corridorMove")}`;
+  }
+  if (pattern === "reflection") {
+    return sceneCards(animation, [{x:-92,y:-40,z:-60,ry:-25,s:.72,o:.55},{x:0,y:-44,z:70,ry:0,s:1.08,o:1},{x:92,y:-40,z:-60,ry:25,s:.72,o:.55}], "sceneFloat");
+  }
+  if (pattern === "grid") {
+    return `<div class="v-slot" style="left:25%;top:24%"></div><div class="v-slot" style="left:47%;top:24%"></div><div class="v-slot" style="left:69%;top:24%"></div><div class="v-slot" style="left:36%;top:58%"></div><div class="v-slot" style="left:58%;top:58%"></div>${sceneCards(animation, [{x:-72,y:-46,x2:72,y2:-46,w:58,h:72},{x:0,y:-46,x2:-36,y2:48,w:58,h:72},{x:72,y:-46,x2:36,y2:48,w:58,h:72},{x:-36,y:48,x2:0,y2:-46,w:58,h:72}], "gridSnap")}`;
+  }
+  if (pattern === "tap") {
+    return `<span class="v-ring" style="animation-delay:0s"></span><span class="v-ring" style="animation-delay:.42s"></span>${cardHtml(id, 0, {w:"96px", h:"122px", move:"tapPulse"}, "main")}`;
+  }
+  if (pattern === "scroll") {
+    return `<span class="v-line" style="left:50%;top:16%;height:70%;width:2px;"></span>${sceneCards(animation, [{x:-86,y:76,z:-70,w:62,h:78},{x:-42,y:32,z:-20,w:66,h:84},{x:0,y:-4,z:70,w:76,h:100},{x:42,y:-38,z:-20,w:66,h:84},{x:86,y:-80,z:-70,w:62,h:78}], "scrollRise")}`;
+  }
+  if (pattern === "conveyor") {
+    return `<span class="v-path" style="left:12%;top:32%;width:76%;height:38%;"></span>${sceneCards(animation, [{y:-12},{y:12},{y:-12},{y:12}], "beltLoop")}`;
+  }
+  if (pattern === "cylinder") {
+    return sceneCards(animation, [{x:-90,y:0,z:-80,rx:55,s:.68,o:.45},{x:-42,y:-52,z:10,rx:28,s:.82,o:.75},{x:0,y:0,z:90,rx:0,s:1.08,o:1},{x:42,y:52,z:10,rx:-28,s:.82,o:.75},{x:90,y:0,z:-80,rx:-55,s:.68,o:.45}], "cylinderSpin");
+  }
+  if (pattern === "sphere") {
+    return sceneCards(animation, [{x:-80,y:-50,z:-50,s:.7,o:.55,w:58,h:58},{x:58,y:-62,z:10,s:.76,o:.7,w:56,h:56},{x:0,y:0,z:90,s:1.08,o:1,w:76,h:76},{x:-42,y:70,z:0,s:.76,o:.7,w:56,h:56},{x:88,y:42,z:-70,s:.62,o:.48,w:52,h:52}], "sphereDrift");
+  }
+  if (pattern === "split") {
+    return `<div class="v-panel" style="${paletteVars(id, 0)}left:50%;--x:-56px;--x2:-92px;"></div><div class="v-panel" style="${paletteVars(id, 1)}left:50%;--x:2px;--x2:38px;"></div>${cardHtml(id, 2, {w:"70px", h:"86px", s:.82, o:.55})}`;
+  }
+  if (pattern === "radial") {
+    return `${cardHtml(id, 0, {w:"86px", h:"108px", s:1, o:1})}${[-70,0,70,140,210].map((deg, i) => `<div class="v-chip" style="${paletteVars(id, i)}left:50%;top:50%;--x:-17px;--y:-17px;--x2:${Math.cos(deg * Math.PI / 180) * 82 - 17}px;--y2:${Math.sin(deg * Math.PI / 180) * 62 - 17}px;animation-delay:${i * .08}s">${i + 1}</div>`).join("")}`;
+  }
+  if (pattern === "action") {
+    return `${cardHtml(id, 0, {x:"-28px", y:"0px", w:"92px", h:"112px", s:1, o:1})}<div class="v-chip" style="${paletteVars(id, 1)}left:54%;top:35%;--x:-20px;--x2:58px;--y:0px">save</div><div class="v-chip" style="${paletteVars(id, 2)}left:54%;top:55%;--x:-20px;--x2:58px;--y:0px;animation-delay:.14s">more</div>`;
+  }
+  if (pattern === "lens") {
+    return `${sceneCards(animation, [{x:-72,y:-36,w:58,h:72},{x:0,y:-36,w:58,h:72},{x:72,y:-36,w:58,h:72},{x:-36,y:46,w:58,h:72},{x:36,y:46,w:58,h:72}], "sceneFloat")}<span class="v-ring" style="width:94px;height:94px"></span>`;
+  }
+  return sceneCards(animation, patternConfigs[pattern]?.points || positions, patternConfigs[pattern]?.motion || "sceneFloat");
+}
+
+function cardPreview(animation, size = "mini") {
+  const pattern = patternFor(animation);
+  const stage = document.createElement("div");
+  stage.className = `${size}-stage visual-stage visual-${pattern}`;
+  stage.dataset.pattern = patternConfigs[pattern]?.label || pattern.replace("-", " ");
+  stage.innerHTML = visualMarkup(animation, pattern);
   return stage;
 }
 function renderFilters() {
