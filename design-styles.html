@@ -182,6 +182,11 @@ button, input { font: inherit; }
   overflow: hidden;
   background: rgba(255,255,255,.045);
   box-shadow: 0 18px 50px rgba(0,0,0,.22);
+  cursor: pointer;
+}
+.style-card:focus-visible {
+  outline: 3px solid rgba(125,211,252,.7);
+  outline-offset: 4px;
 }
 .preview {
   min-height: 275px;
@@ -224,6 +229,146 @@ button, input { font: inherit; }
 .sample .btn { display: inline-grid; place-items: center; min-height: 36px; padding: 0 13px; border-radius: 999px; font-size: 12px; font-weight: 800; }
 .sample .mini { width: 36px; height: 36px; border-radius: 12px; }
 .style-card[hidden] { display: none; }
+.detail {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 34px) 82px;
+}
+.detail[hidden] { display: none; }
+.detail-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.back-btn {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  background: rgba(255,255,255,.07);
+  padding: 9px 15px;
+  cursor: pointer;
+}
+.detail-title h2 {
+  margin: 0;
+  font-size: clamp(34px, 5vw, 72px);
+  line-height: .95;
+  letter-spacing: -.06em;
+}
+.detail-title p {
+  max-width: 760px;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+.detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(290px, .45fr);
+  gap: 18px;
+}
+.detail-preview {
+  min-height: 640px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  overflow: hidden;
+  padding: clamp(18px, 3vw, 34px);
+}
+.lab-shell {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+.lab-hero {
+  min-height: 210px;
+  display: grid;
+  align-content: end;
+  gap: 14px;
+}
+.lab-hero h3 {
+  margin: 0;
+  max-width: 680px;
+  font-size: clamp(34px, 5vw, 68px);
+  line-height: .94;
+  letter-spacing: -.06em;
+}
+.lab-hero p {
+  max-width: 600px;
+  margin: 0;
+  font-size: 15px;
+}
+.lab-actions, .lab-chips, .lab-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.lab-btn, .lab-btn.secondary, .lab-chip, .lab-input {
+  min-height: 42px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 800;
+}
+.lab-btn.secondary {
+  background: transparent !important;
+}
+.lab-input {
+  min-width: min(280px, 100%);
+  background: rgba(255,255,255,.18);
+  color: inherit;
+  font-weight: 600;
+}
+.lab-input::placeholder { color: currentColor; opacity: .66; }
+.lab-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.lab-card, .lab-section, .lab-box {
+  min-height: 150px;
+  border: 1px solid currentColor;
+  border-radius: 18px;
+  padding: 18px;
+  background: rgba(255,255,255,.16);
+}
+.lab-card strong, .lab-section strong, .lab-box strong {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.lab-section {
+  min-height: 170px;
+  display: grid;
+  align-content: center;
+}
+.lab-box {
+  min-height: 92px;
+}
+.lab-side {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 20px;
+  background: rgba(255,255,255,.045);
+  align-self: start;
+}
+.lab-side h3 { margin: 0 0 12px; font-size: 22px; }
+.lab-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  color: var(--muted);
+}
+.lab-list li {
+  border: 1px solid var(--soft-line);
+  border-radius: 14px;
+  padding: 11px;
+  background: rgba(255,255,255,.035);
+}
 
 .minimal { background: #f7f7f3; color: #101014; }
 .minimal .sample { background: #fff; border-radius: 10px; color: #111; box-shadow: 0 20px 45px rgba(0,0,0,.1); }
@@ -504,6 +649,9 @@ button, input { font: inherit; }
   .hero { padding-top: 42px; }
   .stats { grid-template-columns: 1fr; }
   .style-card { min-height: auto; }
+  .detail-layout, .lab-grid { grid-template-columns: 1fr; }
+  .detail-top { flex-direction: column-reverse; }
+  .detail-preview { min-height: auto; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .style-card { transition: transform .25s ease, border-color .25s ease; }
@@ -555,6 +703,7 @@ button, input { font: inherit; }
   </section>
 
   <section class="grid" id="samples" aria-label="UI style samples"></section>
+  <section class="detail" id="detail" aria-live="polite" hidden></section>
 </main>
 <footer class="footer">Built as a static visual reference page for fast preview and web deployment.</footer>
 
@@ -615,6 +764,13 @@ const styles = [
 const grid = document.querySelector("#samples");
 const searchInput = document.querySelector("#searchInput");
 const categorySelect = document.querySelector("#categorySelect");
+const detail = document.querySelector("#detail");
+const hero = document.querySelector(".hero");
+const toolbar = document.querySelector(".toolbar");
+
+function slugify(value) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
 
 function sampleMarkup(item) {
   if (item.custom === "bento") {
@@ -629,18 +785,113 @@ function sampleMarkup(item) {
   return `<div class="sample"><h3>${item.body}</h3><p>${item.desc.split(".")[0]}.</p><div class="row"><span class="btn">Preview</span><span class="mini"></span></div></div>`;
 }
 
+function detailMarkup(item) {
+  return `<div class="detail-top">
+    <div class="detail-title">
+      <h2>${item.name}</h2>
+      <p>${item.desc} Best for: ${item.best}.</p>
+    </div>
+    <button class="back-btn" type="button" id="backToGrid">Back to all styles</button>
+  </div>
+  <div class="detail-layout">
+    <div class="detail-preview ${item.cls}">
+      <div class="lab-shell">
+        <section class="lab-hero">
+          <div class="lab-chips">
+            <span class="lab-chip">${item.cat}</span>
+            <span class="lab-chip">Component system</span>
+          </div>
+          <h3>${item.body || item.name}</h3>
+          <p>${item.desc} This view shows how common UI elements should visually behave inside the ${item.name} direction.</p>
+          <div class="lab-actions">
+            <span class="btn lab-btn">Primary button</span>
+            <span class="btn lab-btn secondary">Secondary button</span>
+          </div>
+        </section>
+        <div class="lab-row">
+          <input class="lab-input" aria-label="Sample input" placeholder="Input field / search box">
+          <span class="lab-chip">Status chip</span>
+          <span class="lab-chip">Filter</span>
+        </div>
+        <section class="lab-grid">
+          <article class="lab-card">
+            <strong>Card</strong>
+            <p>Use this shell for products, services, portfolio items, testimonials, blog posts, or pricing blocks.</p>
+          </article>
+          <article class="lab-card">
+            <strong>Text block</strong>
+            <p>Headings, body copy, labels, and supporting text follow this spacing and contrast style.</p>
+          </article>
+          <article class="lab-card">
+            <strong>Action box</strong>
+            <p>Buttons, icons, and small calls to action should feel consistent with this visual language.</p>
+          </article>
+        </section>
+        <section class="lab-section">
+          <strong>Section container</strong>
+          <p>This is how a full website section, feature band, or dashboard module can look using ${item.name} styling.</p>
+        </section>
+        <div class="lab-grid">
+          <div class="lab-box"><strong>Small box</strong><p>Metric, note, quick action, or nav item.</p></div>
+          <div class="lab-box"><strong>Media block</strong><p>Image/product/video placeholder treatment.</p></div>
+          <div class="lab-box"><strong>Info panel</strong><p>Helper copy, alert, or detail summary.</p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="lab-side">
+      <h3>Element Guide</h3>
+      <ul class="lab-list">
+        <li><strong>Buttons:</strong> match the preview button shape, color, depth, and border style.</li>
+        <li><strong>Cards:</strong> use the same radius, surface, shadow, and spacing rhythm.</li>
+        <li><strong>Text:</strong> keep heading weight, scale, and contrast aligned with this style.</li>
+        <li><strong>Sections:</strong> use the background treatment and container feel shown in the large preview.</li>
+        <li><strong>Boxes:</strong> reuse for stats, forms, feature blocks, media, and dashboard panels.</li>
+      </ul>
+    </aside>
+  </div>`;
+}
+
+function openDetail(item, push = true) {
+  detail.innerHTML = detailMarkup(item);
+  detail.hidden = false;
+  hero.hidden = true;
+  toolbar.hidden = true;
+  grid.hidden = true;
+  if (push) location.hash = `style=${slugify(item.name)}`;
+  document.querySelector("#backToGrid").addEventListener("click", closeDetail);
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+function closeDetail() {
+  detail.hidden = true;
+  hero.hidden = false;
+  toolbar.hidden = false;
+  grid.hidden = false;
+  if (location.hash.startsWith("#style=")) history.pushState("", document.title, location.pathname + location.search);
+}
+
+function syncRoute() {
+  if (!location.hash.startsWith("#style=")) {
+    closeDetail();
+    return;
+  }
+  const slug = location.hash.replace("#style=", "");
+  const item = styles.find(style => slugify(style.name) === slug);
+  if (item) openDetail(item, false);
+}
+
 function render() {
   const query = searchInput.value.trim().toLowerCase();
   const category = categorySelect.value;
   grid.innerHTML = styles.map(item => {
     const haystack = `${item.name} ${item.cat} ${item.desc} ${item.best}`.toLowerCase();
     const hidden = (category !== "all" && item.cat !== category) || (query && !haystack.includes(query));
-    return `<article class="style-card" data-category="${item.cat}" ${hidden ? "hidden" : ""}>
+    return `<article class="style-card" role="button" tabindex="0" data-style="${slugify(item.name)}" data-category="${item.cat}" ${hidden ? "hidden" : ""}>
       <div class="preview ${item.cls}">${sampleMarkup(item)}</div>
       <div class="info">
         <h2>${item.name}</h2>
         <p>${item.desc}</p>
-        <div class="tags"><span class="tag">${item.cat}</span><span class="tag">${item.best}</span></div>
+        <div class="tags"><span class="tag">${item.cat}</span><span class="tag">${item.best}</span><span class="tag">Tap to view elements</span></div>
       </div>
     </article>`;
   }).join("");
@@ -648,7 +899,23 @@ function render() {
 
 searchInput.addEventListener("input", render);
 categorySelect.addEventListener("change", render);
+grid.addEventListener("click", event => {
+  const card = event.target.closest(".style-card");
+  if (!card) return;
+  const item = styles.find(style => slugify(style.name) === card.dataset.style);
+  if (item) openDetail(item);
+});
+grid.addEventListener("keydown", event => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  const card = event.target.closest(".style-card");
+  if (!card) return;
+  event.preventDefault();
+  const item = styles.find(style => slugify(style.name) === card.dataset.style);
+  if (item) openDetail(item);
+});
+window.addEventListener("hashchange", syncRoute);
 render();
+syncRoute();
 </script>
 </body>
 </html>
