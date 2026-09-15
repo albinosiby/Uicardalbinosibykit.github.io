@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI Style Samples - Design Reference Library</title>
+<style>
+:root {
+  color-scheme: dark;
+  --page: #08090d;
+  --ink: #f7f5ee;
+  --muted: #a8a9b5;
+  --line: rgba(255,255,255,.12);
+  --soft-line: rgba(255,255,255,.07);
+  --panel: #11131b;
+  --panel-2: #171a24;
+  --accent: #7dd3fc;
+  --radius: 18px;
+  --shadow: 0 24px 70px rgba(0,0,0,.35);
+  --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-height: 100svh;
+  font-family: var(--font);
+  background:
+    radial-gradient(circle at 14% -10%, rgba(125,211,252,.18), transparent 32rem),
+    radial-gradient(circle at 82% 0%, rgba(245,158,11,.13), transparent 28rem),
+    linear-gradient(180deg, #08090d 0%, #101119 48%, #08090d 100%);
+  color: var(--ink);
+}
+button, input { font: inherit; }
+.shell { min-height: 100svh; }
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--line);
+  background: rgba(8,9,13,.78);
+  backdrop-filter: blur(18px);
+}
+.topbar-inner {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 14px clamp(16px, 3vw, 34px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 850;
+  letter-spacing: -.03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: conic-gradient(from 140deg, #7dd3fc, #fcd34d, #fb7185, #7dd3fc);
+  box-shadow: 0 0 32px rgba(125,211,252,.24);
+}
+.topbar nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.topbar a:not(.brand), .chip {
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  background: rgba(255,255,255,.045);
+  text-decoration: none;
+  padding: 8px 13px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.hero {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: clamp(52px, 7vw, 96px) clamp(16px, 3vw, 34px) 30px;
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(300px, .48fr);
+  gap: clamp(24px, 4vw, 60px);
+  align-items: end;
+}
+.hero h1 {
+  margin: 0;
+  max-width: 900px;
+  font-size: clamp(42px, 7vw, 92px);
+  line-height: .92;
+  letter-spacing: -.075em;
+}
+.hero p {
+  margin: 22px 0 0;
+  max-width: 760px;
+  color: var(--muted);
+  font-size: clamp(16px, 1.5vw, 20px);
+}
+.hero-panel {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.095), rgba(255,255,255,.035));
+  box-shadow: var(--shadow);
+}
+.meter {
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  overflow: hidden;
+  margin: 14px 0 16px;
+}
+.meter span {
+  display: block;
+  width: 82%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7dd3fc, #facc15, #fb7185);
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.stat {
+  border: 1px solid var(--soft-line);
+  border-radius: 16px;
+  padding: 12px;
+  background: rgba(0,0,0,.22);
+}
+.stat strong { display: block; font-size: 23px; line-height: 1; }
+.stat span { display: block; margin-top: 7px; color: var(--muted); font-size: 12px; }
+.toolbar {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 34px) 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+}
+.search {
+  min-height: 46px;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  background: rgba(255,255,255,.055);
+  padding: 0 18px;
+  outline: none;
+}
+.search:focus { box-shadow: 0 0 0 4px rgba(125,211,252,.16); border-color: rgba(125,211,252,.55); }
+.select {
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  background: #151722;
+  padding: 0 16px;
+}
+.grid {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 34px) 72px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
+}
+.style-card {
+  min-height: 470px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(255,255,255,.045);
+  box-shadow: 0 18px 50px rgba(0,0,0,.22);
+}
+.preview {
+  min-height: 275px;
+  padding: 22px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.info {
+  border-top: 1px solid var(--soft-line);
+  padding: 18px;
+}
+.info h2 { margin: 0; font-size: 21px; letter-spacing: -.03em; }
+.info p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 14px;
+}
+.tag {
+  border: 1px solid var(--soft-line);
+  border-radius: 999px;
+  color: var(--muted);
+  background: rgba(255,255,255,.045);
+  padding: 6px 9px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.sample {
+  width: min(230px, 100%);
+  min-height: 168px;
+  padding: 18px;
+  position: relative;
+}
+.sample h3 { margin: 0; font-size: 22px; line-height: 1.05; letter-spacing: -.04em; }
+.sample p { margin: 10px 0 0; font-size: 13px; }
+.sample .row { display: flex; gap: 8px; align-items: center; margin-top: 16px; }
+.sample .btn { display: inline-grid; place-items: center; min-height: 36px; padding: 0 13px; border-radius: 999px; font-size: 12px; font-weight: 800; }
+.sample .mini { width: 36px; height: 36px; border-radius: 12px; }
+.style-card[hidden] { display: none; }
+
+.minimal { background: #f7f7f3; color: #101014; }
+.minimal .sample { background: #fff; border-radius: 10px; color: #111; box-shadow: 0 20px 45px rgba(0,0,0,.1); }
+.minimal .btn { background: #111; color: #fff; }
+.minimal .mini { border: 1px solid #ccc; }
+
+.glass { background: linear-gradient(135deg, #153a7b, #ef8da9); }
+.glass::before { content: ""; position: absolute; inset: 12%; background: radial-gradient(circle, rgba(255,255,255,.55), transparent 34%); filter: blur(18px); }
+.glass .sample { color: white; border: 1px solid rgba(255,255,255,.46); border-radius: 22px; background: rgba(255,255,255,.18); backdrop-filter: blur(18px); box-shadow: 0 20px 60px rgba(0,0,0,.22); }
+.glass .btn { background: rgba(255,255,255,.22); color: #fff; border: 1px solid rgba(255,255,255,.34); }
+.glass .mini { background: rgba(255,255,255,.28); }
+
+.neumorph { background: #e9edf4; color: #202733; }
+.neumorph .sample { border-radius: 28px; background: #e9edf4; box-shadow: 16px 16px 34px #c7cbd2, -16px -16px 34px #fff; }
+.neumorph .btn { color: #31507c; box-shadow: inset 5px 5px 10px #cbd0d8, inset -5px -5px 10px #fff; }
+.neumorph .mini { background: #e9edf4; box-shadow: 8px 8px 16px #c7cbd2, -8px -8px 16px #fff; }
+
+.skeuo { background: #4b3828; color: #211407; }
+.skeuo .sample { border-radius: 14px; background: linear-gradient(#d8b88b, #9b6c3d); border: 2px solid #5c391f; box-shadow: inset 0 2px 8px rgba(255,255,255,.55), inset 0 -8px 20px rgba(50,20,0,.35), 0 22px 45px rgba(0,0,0,.36); }
+.skeuo .btn { color: #ffe9ba; background: linear-gradient(#6b4428, #2d170b); border: 1px solid #1b0e06; box-shadow: inset 0 1px 2px rgba(255,255,255,.35); }
+.skeuo .mini { background: radial-gradient(circle at 40% 35%, #333, #050505); border: 5px solid #c7a270; }
+
+.brutal { background: #dfff26; color: #050505; }
+.brutal .sample { border: 4px solid #050505; border-radius: 0; background: #dfff26; box-shadow: 10px 10px 0 #050505; text-transform: uppercase; }
+.brutal .btn { background: #050505; color: #dfff26; border-radius: 0; }
+.brutal .mini { background: #ff3f80; border: 3px solid #050505; border-radius: 0; }
+
+.flat { background: #20a4f3; color: white; }
+.flat .sample { border-radius: 18px; background: #45b7f7; box-shadow: none; }
+.flat .btn { background: #ff6b6b; color: white; }
+.flat .mini { background: #ffd166; border-radius: 50%; }
+
+.material { background: #dbeafe; color: #111827; }
+.material .sample { border-radius: 14px; background: #fff; box-shadow: 0 10px 28px rgba(30,64,175,.2); }
+.material .btn { background: #2563eb; color: white; box-shadow: 0 8px 18px rgba(37,99,235,.3); }
+.material .mini { background: #eff6ff; }
+
+.ios { background: #f5f5f7; color: #111827; }
+.ios .sample { border-radius: 28px; background: rgba(255,255,255,.92); box-shadow: 0 22px 50px rgba(0,0,0,.12); }
+.ios .btn { background: #007aff; color: white; }
+.ios .mini { background: linear-gradient(135deg, #34c759, #5ac8fa); border-radius: 10px; }
+
+.bento { background: #eef2ff; color: #111827; }
+.bento .sample { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; padding: 0; background: transparent; }
+.bento .tile { min-height: 78px; border-radius: 18px; padding: 13px; background: linear-gradient(135deg, #fff, #dbeafe); box-shadow: 0 12px 30px rgba(59,130,246,.16); }
+.bento .tile:nth-child(2) { background: #ffe4e6; }
+.bento .tile:nth-child(3) { background: #dcfce7; }
+.bento .tile:nth-child(4) { background: #fef3c7; }
+
+.dark-future { background: #030712; color: #a7f3d0; }
+.dark-future .sample { border: 1px solid rgba(45,212,191,.38); border-radius: 16px; background: linear-gradient(180deg, rgba(20,184,166,.14), rgba(15,23,42,.92)); box-shadow: 0 0 42px rgba(45,212,191,.18); }
+.dark-future .btn { background: #2dd4bf; color: #042f2e; }
+.dark-future .mini { background: #0f172a; border: 1px solid #2dd4bf; }
+
+.editorial { background: #eee8dc; color: #17120c; }
+.editorial .sample { border-radius: 0; border-top: 2px solid #17120c; border-bottom: 1px solid #17120c; background: transparent; font-family: Georgia, serif; }
+.editorial h3 { font-size: 30px; letter-spacing: -.05em; }
+.editorial .btn { border: 1px solid #17120c; color: #17120c; border-radius: 0; }
+.editorial .mini { background: #17120c; border-radius: 0; }
+
+.cyberpunk { background: #160022; color: #ff4fd8; }
+.cyberpunk .sample { border-radius: 0; border: 1px solid #ff4fd8; background: linear-gradient(135deg, rgba(255,79,216,.15), rgba(0,229,255,.12)); box-shadow: 8px 8px 0 #00e5ff, 0 0 42px rgba(255,79,216,.24); }
+.cyberpunk .btn { border-radius: 0; background: #ff4fd8; color: #160022; }
+.cyberpunk .mini { background: #00e5ff; border-radius: 0; }
+
+.retro { background: #f4e7c5; color: #1e4d42; }
+.retro .sample { border: 2px solid #1e4d42; border-radius: 8px; background: #f7e9c8; box-shadow: inset 0 0 32px rgba(120,60,20,.18); font-family: Georgia, serif; }
+.retro h3 { color: #b65a35; font-style: italic; }
+.retro .btn { background: #1e4d42; color: #f7e9c8; }
+.retro .mini { background: #b65a35; }
+
+.clay { background: #ffd2d9; color: #2d1b22; }
+.clay .sample { border-radius: 34px; background: #ffb8c4; box-shadow: 0 24px 0 rgba(172,74,95,.24), inset 0 7px 18px rgba(255,255,255,.45); }
+.clay .btn { background: #fff1f2; color: #8a263d; box-shadow: 0 7px 0 rgba(172,74,95,.2); }
+.clay .mini { background: #7664ff; border-radius: 50%; }
+
+.aurora { background: linear-gradient(135deg, #111827, #4338ca 38%, #ec4899 72%, #fde68a); color: white; }
+.aurora .sample { border-radius: 24px; background: rgba(255,255,255,.12); box-shadow: 0 0 55px rgba(236,72,153,.35); }
+.aurora .btn { background: rgba(255,255,255,.2); color: white; border: 1px solid rgba(255,255,255,.24); }
+.aurora .mini { background: radial-gradient(circle, #fff, #60a5fa, #ec4899); }
+
+.dashboard { background: #eef2f7; color: #111827; }
+.dashboard .sample { border-radius: 14px; background: #fff; box-shadow: 0 15px 35px rgba(15,23,42,.12); }
+.dashboard .chart { height: 58px; margin-top: 15px; border-radius: 12px; background: linear-gradient(135deg, transparent 45%, #3b82f6 46% 52%, transparent 53%), linear-gradient(#eff6ff, #dbeafe); }
+.dashboard .btn { background: #111827; color: white; }
+
+.luxury { background: #090806; color: #f7d992; }
+.luxury .sample { border: 1px solid rgba(247,217,146,.44); border-radius: 10px; background: radial-gradient(circle at 80% 10%, rgba(247,217,146,.2), transparent 35%), #11100d; box-shadow: 0 22px 60px rgba(0,0,0,.46); font-family: Georgia, serif; }
+.luxury .btn { border: 1px solid #f7d992; color: #f7d992; border-radius: 2px; }
+.luxury .mini { background: linear-gradient(135deg, #f7d992, #7c5b1e); }
+
+.game { background: #1f2937; color: #fff; }
+.game .sample { border: 3px solid #a16207; border-radius: 12px; background: linear-gradient(#37506f, #152337); box-shadow: inset 0 0 0 2px #fbbf24, 0 20px 40px rgba(0,0,0,.4); }
+.game .btn { background: linear-gradient(#f59e0b, #92400e); color: white; border: 2px solid #fcd34d; }
+.game .mini { background: #ef4444; border-radius: 50%; box-shadow: 44px 0 0 #ef4444, 88px 0 0 #ef4444; }
+
+.swiss { background: #f8fafc; color: #0f172a; }
+.swiss .sample { border-radius: 0; background: #fff; border-left: 10px solid #ef233c; display: grid; align-content: space-between; }
+.swiss h3 { font-size: 28px; line-height: .95; }
+.swiss .btn { border-radius: 0; background: #0f172a; color: white; }
+
+.mono { background: #e5e5e5; color: #050505; }
+.mono .sample { border-radius: 16px; background: #050505; color: #f5f5f5; }
+.mono .btn { background: #f5f5f5; color: #050505; }
+.mono .mini { background: #777; }
+
+.liquid { background: #e0f2fe; color: #073042; }
+.liquid .sample { border-radius: 42% 58% 50% 50% / 45% 38% 62% 55%; background: linear-gradient(135deg, #67e8f9, #c084fc); box-shadow: 0 22px 48px rgba(103,232,249,.28); }
+.liquid .btn { background: white; color: #075985; }
+.liquid .mini { border-radius: 45% 55% 65% 35%; background: #fff; }
+
+.holo { background: #f8fafc; color: #111827; }
+.holo .sample { border-radius: 20px; background: linear-gradient(115deg, #c7d2fe, #fbcfe8, #bbf7d0, #bae6fd); box-shadow: 0 18px 48px rgba(129,140,248,.28); }
+.holo .btn { background: rgba(255,255,255,.55); color: #111827; }
+.holo .mini { background: rgba(255,255,255,.65); }
+
+.terminal { background: #020617; color: #22c55e; }
+.terminal .sample { border-radius: 8px; background: #020617; border: 1px solid #166534; font-family: "SF Mono", Consolas, monospace; box-shadow: 0 0 40px rgba(34,197,94,.16); }
+.terminal .btn { background: #22c55e; color: #020617; }
+.terminal .mini { background: #052e16; border: 1px solid #22c55e; }
+
+.blueprint { background: #0f3b73; color: #dbeafe; }
+.blueprint .sample { border-radius: 0; border: 1px solid rgba(219,234,254,.72); background-image: linear-gradient(rgba(219,234,254,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(219,234,254,.18) 1px, transparent 1px); background-size: 16px 16px; }
+.blueprint .btn { border-radius: 0; border: 1px solid #dbeafe; color: #dbeafe; }
+.blueprint .mini { border: 1px dashed #dbeafe; border-radius: 0; }
+
+.organic { background: #ede7d5; color: #36451d; }
+.organic .sample { border-radius: 34px 18px 40px 20px; background: #d6c99f; box-shadow: 0 20px 40px rgba(54,69,29,.18); }
+.organic .btn { background: #36451d; color: #f8f3df; }
+.organic .mini { background: #7f8c3a; border-radius: 58% 42% 44% 56%; }
+
+.industrial { background: #27272a; color: #f4f4f5; }
+.industrial .sample { border-radius: 6px; background: repeating-linear-gradient(45deg, #3f3f46 0 10px, #27272a 10px 20px); border: 2px solid #71717a; }
+.industrial .btn { background: #f97316; color: #111; border-radius: 4px; }
+.industrial .mini { background: #71717a; border-radius: 3px; }
+
+.spatial { background: #0b1020; color: #e0f2fe; perspective: 800px; }
+.spatial .sample { transform: rotateX(8deg) rotateY(-12deg); border-radius: 24px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.22); box-shadow: 24px 24px 60px rgba(0,0,0,.35); }
+.spatial .btn { background: rgba(125,211,252,.2); color: #e0f2fe; border: 1px solid rgba(125,211,252,.35); }
+.spatial .mini { background: rgba(255,255,255,.18); }
+
+.split { background: linear-gradient(90deg, #111827 50%, #f8fafc 50%); color: #111827; }
+.split .sample { display: grid; grid-template-columns: 1fr 1fr; padding: 0; overflow: hidden; border-radius: 18px; background: white; }
+.split .half { padding: 18px; }
+.split .half:first-child { background: #111827; color: white; }
+.split .btn { background: #111827; color: white; }
+
+.clean-saas { background: #f8fafc; color: #111827; }
+.clean-saas .sample { border: 1px solid #e5e7eb; border-radius: 18px; background: #fff; box-shadow: 0 14px 34px rgba(15,23,42,.08); }
+.clean-saas .btn { background: #4f46e5; color: #fff; }
+.clean-saas .mini { background: #eef2ff; }
+
+.anti { background: #fff; color: #050505; }
+.anti .sample { transform: rotate(-2deg); border: 3px dashed #050505; border-radius: 0 28px 4px 18px; background: #fffb00; box-shadow: -12px 12px 0 #ff2e93; }
+.anti .btn { background: #00d5ff; color: #050505; border: 2px solid #050505; border-radius: 0; }
+.anti .mini { background: #050505; border-radius: 0; transform: rotate(12deg); }
+
+.footer {
+  border-top: 1px solid var(--line);
+  padding: 26px clamp(16px, 3vw, 34px);
+  color: var(--muted);
+  text-align: center;
+}
+@media (max-width: 760px) {
+  .topbar-inner, .hero, .toolbar { grid-template-columns: 1fr; }
+  .topbar-inner { align-items: flex-start; }
+  .hero { padding-top: 42px; }
+  .stats { grid-template-columns: 1fr; }
+  .style-card { min-height: auto; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .style-card { transition: transform .25s ease, border-color .25s ease; }
+  .style-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,.24); }
+}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./design-styles.html"><span class="brand-mark" aria-hidden="true"></span> UI Style Library</a>
+      <nav aria-label="Primary">
+        <a href="./index.html">MotionCards</a>
+        <a href="#samples">Samples</a>
+        <span class="chip">30 design styles</span>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>UI design styles you can compare visually.</h1>
+      <p>Browse coded sample cards for popular interface styles, from minimal and glassmorphism to cyberpunk, command-center dashboards, spatial UI, and luxury editorial layouts.</p>
+    </div>
+    <aside class="hero-panel" aria-label="Library summary">
+      <strong>Design reference board</strong>
+      <p style="margin:8px 0 0;color:var(--muted)">Use this page to choose a visual direction before building a website, dashboard, app screen, or animation library.</p>
+      <div class="meter" aria-hidden="true"><span></span></div>
+      <div class="stats">
+        <div class="stat"><strong>30</strong><span>styles</span></div>
+        <div class="stat"><strong>CSS</strong><span>samples</span></div>
+        <div class="stat"><strong>0</strong><span>assets needed</span></div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="toolbar" aria-label="Filters">
+    <input class="search" id="searchInput" type="search" placeholder="Search style, mood, or use case">
+    <select class="select" id="categorySelect" aria-label="Filter by category">
+      <option value="all">All categories</option>
+      <option value="clean">Clean</option>
+      <option value="premium">Premium</option>
+      <option value="futuristic">Futuristic</option>
+      <option value="playful">Playful</option>
+      <option value="content">Content</option>
+      <option value="tool">Tools</option>
+    </select>
+  </section>
+
+  <section class="grid" id="samples" aria-label="UI style samples"></section>
+</main>
+<footer class="footer">Built as a static visual reference page for fast preview and web deployment.</footer>
+
+<script>
+const styles = [
+  {name:"Minimalistic", cls:"minimal", cat:"clean", desc:"Simple spacing, few colors, quiet controls, and strong content focus.", best:"Portfolio, productivity, personal sites", body:"Less but better."},
+  {name:"Glassmorphism", cls:"glass", cat:"premium", desc:"Translucent panels, blur, light borders, and layered depth.", best:"AI tools, hero sections, premium dashboards", body:"Soft layers over vivid backgrounds."},
+  {name:"Neumorphism", cls:"neumorph", cat:"clean", desc:"Raised and inset surfaces using soft shadows on one background.", best:"Utilities, finance apps, calm tools", body:"Soft touch interface."},
+  {name:"Skeuomorphism", cls:"skeuo", cat:"premium", desc:"Real-world material cues such as leather, knobs, bevels, and texture.", best:"Music apps, cameras, nostalgic products", body:"Digital objects feel physical."},
+  {name:"Brutalism", cls:"brutal", cat:"playful", desc:"Hard borders, raw typography, loud contrast, and intentionally direct layout.", best:"Creative portfolios, bold campaigns", body:"Make ideas real."},
+  {name:"Flat Design", cls:"flat", cat:"clean", desc:"Clean shapes, bright solid colors, and no heavy depth effects.", best:"Mobile apps, onboarding, simple SaaS", body:"Explore more."},
+  {name:"Material Design", cls:"material", cat:"tool", desc:"Card surfaces, elevation, clear hierarchy, and familiar controls.", best:"Android apps, admin tools, task apps", body:"Today’s tasks."},
+  {name:"Apple / iOS", cls:"ios", cat:"clean", desc:"Rounded panels, refined spacing, clean typography, and restrained effects.", best:"Mobile apps, lifestyle tools", body:"Hello again."},
+  {name:"Bento Grid", cls:"bento", cat:"tool", desc:"Compact modular blocks with varied sizes and clear content grouping.", best:"Dashboards, feature pages, portfolios", custom:"bento"},
+  {name:"Dark Futuristic", cls:"dark-future", cat:"futuristic", desc:"Deep backgrounds, luminous lines, technical panels, and glowing accents.", best:"AI tools, monitoring, fintech", body:"System online."},
+  {name:"Editorial / Magazine", cls:"editorial", cat:"content", desc:"Large serif typography, strong rhythm, columns, and image-led hierarchy.", best:"Blogs, stories, case studies", body:"A brighter perspective."},
+  {name:"Cyberpunk", cls:"cyberpunk", cat:"futuristic", desc:"Neon contrast, angular frames, glowing colors, and dramatic dark scenes.", best:"Gaming, music, event pages", body:"Night never sleeps."},
+  {name:"Retro / Vintage", cls:"retro", cat:"content", desc:"Aged paper, muted inks, classic type, and nostalgic illustration cues.", best:"Food, culture, posters, campaigns", body:"Good times."},
+  {name:"Claymorphism", cls:"clay", cat:"playful", desc:"Chunky rounded 3D-like shapes with soft color and friendly volume.", best:"Kids apps, education, onboarding", body:"Hi there!"},
+  {name:"Aurora / Gradient", cls:"aurora", cat:"premium", desc:"Soft glowing color fields with ambient movement and dreamy contrast.", best:"AI landing pages, creative tools", body:"Ideas in motion."},
+  {name:"Dashboard / Enterprise", cls:"dashboard", cat:"tool", desc:"Readable metrics, charts, tight spacing, and operational clarity.", best:"CRM, analytics, finance, admin panels", custom:"dashboard"},
+  {name:"Luxury / Premium", cls:"luxury", cat:"premium", desc:"Elegant contrast, serif typography, metallic accents, and calm spacing.", best:"Jewelry, hotels, fashion, premium brands", body:"A higher standard."},
+  {name:"Game UI", cls:"game", cat:"playful", desc:"Framed panels, icon slots, stats, badges, and high-interaction surfaces.", best:"Games, gamified apps, learning", body:"Start quest."},
+  {name:"Swiss Design", cls:"swiss", cat:"clean", desc:"Strict grid, asymmetric type, red/black contrast, and precision alignment.", best:"Agencies, posters, design portfolios", body:"Grid first."},
+  {name:"Monochrome UI", cls:"mono", cat:"premium", desc:"Black, white, gray, and one optional accent for disciplined hierarchy.", best:"Luxury, developer tools, galleries", body:"Pure contrast."},
+  {name:"Liquid UI", cls:"liquid", cat:"playful", desc:"Organic shapes, fluid edges, soft curves, and friendly motion language.", best:"Wellness, music, creative apps", body:"Flow naturally."},
+  {name:"Holographic UI", cls:"holo", cat:"futuristic", desc:"Iridescent colors, reflective surfaces, and futuristic material feel.", best:"Web3, AI, fashion tech", body:"Light shifts."},
+  {name:"Terminal UI", cls:"terminal", cat:"tool", desc:"Command-line inspired panels, monospace text, and high technical clarity.", best:"Developer tools, security, infra apps", body:"> deploy ready"},
+  {name:"Blueprint UI", cls:"blueprint", cat:"tool", desc:"Technical drawing grids, line work, measurements, and engineering mood.", best:"Architecture, planning, product specs", body:"Plan the system."},
+  {name:"Organic UI", cls:"organic", cat:"content", desc:"Earthy colors, natural shapes, calm surfaces, and human warmth.", best:"Eco brands, food, wellness", body:"Grounded design."},
+  {name:"Industrial UI", cls:"industrial", cat:"tool", desc:"Rugged texture, caution accents, strong panels, and machine-like clarity.", best:"Construction, logistics, hardware", body:"Built for work."},
+  {name:"Spatial UI", cls:"spatial", cat:"futuristic", desc:"Floating panels, perspective, depth layers, and visionOS-style composition.", best:"3D tools, immersive apps, demos", body:"Layers in space."},
+  {name:"Split-Screen UI", cls:"split", cat:"clean", desc:"Two contrasting sections side by side for strong product comparison.", best:"SaaS landing pages, before/after tools", custom:"split"},
+  {name:"Clean SaaS UI", cls:"clean-saas", cat:"tool", desc:"Neutral surfaces, clear cards, product-first copy, and scalable components.", best:"Startups, dashboards, web apps", body:"Ship faster."},
+  {name:"Anti-Design", cls:"anti", cat:"playful", desc:"Intentionally irregular spacing, clashing accents, and expressive layout.", best:"Art, fashion, experimental sites", body:"Break the grid."}
+];
+
+const grid = document.querySelector("#samples");
+const searchInput = document.querySelector("#searchInput");
+const categorySelect = document.querySelector("#categorySelect");
+
+function sampleMarkup(item) {
+  if (item.custom === "bento") {
+    return `<div class="sample"><div class="tile"><strong>Plan</strong><p>Organize</p></div><div class="tile"><strong>Focus</strong><p>Tasks</p></div><div class="tile"><strong>Create</strong><p>Ideas</p></div><div class="tile"><strong>Grow</strong><p>Reach</p></div></div>`;
+  }
+  if (item.custom === "dashboard") {
+    return `<div class="sample"><h3>$24,780</h3><p>Revenue overview</p><div class="chart"></div><div class="row"><span class="btn">View report</span><span class="mini"></span></div></div>`;
+  }
+  if (item.custom === "split") {
+    return `<div class="sample"><div class="half"><h3>Dark</h3><p>Focus</p></div><div class="half"><h3>Light</h3><p>Clarity</p><div class="row"><span class="btn">Compare</span></div></div></div>`;
+  }
+  return `<div class="sample"><h3>${item.body}</h3><p>${item.desc.split(".")[0]}.</p><div class="row"><span class="btn">Preview</span><span class="mini"></span></div></div>`;
+}
+
+function render() {
+  const query = searchInput.value.trim().toLowerCase();
+  const category = categorySelect.value;
+  grid.innerHTML = styles.map(item => {
+    const haystack = `${item.name} ${item.cat} ${item.desc} ${item.best}`.toLowerCase();
+    const hidden = (category !== "all" && item.cat !== category) || (query && !haystack.includes(query));
+    return `<article class="style-card" data-category="${item.cat}" ${hidden ? "hidden" : ""}>
+      <div class="preview ${item.cls}">${sampleMarkup(item)}</div>
+      <div class="info">
+        <h2>${item.name}</h2>
+        <p>${item.desc}</p>
+        <div class="tags"><span class="tag">${item.cat}</span><span class="tag">${item.best}</span></div>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+searchInput.addEventListener("input", render);
+categorySelect.addEventListener("change", render);
+render();
+</script>
+</body>
+</html>
